@@ -1,0 +1,26 @@
+.wrapper {
+  width: 300px;
+  padding: 50px;
+  margin: auto;
+}
+
+.main-view {
+  display: flex;
+  flex-flow: column;
+}
+
+.columns {
+  display: flex;
+  flex-flow: row;
+}
+
+.events-list {
+  display: flex;
+  flex-flow: column;
+}
+
+.event-name {
+  color: #48dbfb;
+  font-weight: bold;
+  font-size: 20px;
+}
