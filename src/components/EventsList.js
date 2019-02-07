@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import anime from 'animejs'
+import EventDisplay from './EventDisplay';
 
 export default class EventsList extends Component {
   componentDidUpdate = (prevProps) => {
@@ -14,9 +15,10 @@ export default class EventsList extends Component {
   }
     
   render() {
+    const sortedEvents = this.props.events.sort((event1, event2) => new Date(event1.event_date).getTime() - new Date(event2.event_date).getTime())
     return (
       <div className="events-list">
-        {this.props.events.map(event => <span className="event-name">{event.name}</span>)}
+        {sortedEvents.map(event => <EventDisplay data={event}/>)}
       </div>
     )
   }

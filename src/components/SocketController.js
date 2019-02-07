@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import MainView from './MainView';
+import {today} from '../utility.js'
 
 export default class SocketController extends Component {
   state = {
     events: [],
-    newEventName: ""
+    newEventName: "",
+    newEventDate: today()
   }
 
   componentDidMount = () => {
@@ -16,16 +18,30 @@ export default class SocketController extends Component {
     const socket = require('socket.io-client')(url);
     this.socket = socket
     socket.on("eventCreated", this.eventCreated)
+    socket.on("eventList", this.updateEventList)
   }
 
   createNewEvent = () => {
-    this.socket.emit("createNewEvent", {name: this.state.newEventName, username: "exampleusername"})
-    // console.log("Making new event with name " + this.state.newEventName)
-    this.setState({newEventName: ""})
+    this.socket.emit("createNewEvent", {
+      name: this.state.newEventName,
+      username: "exampleusername",
+      date: today()
+    })
+    this.setState({newEventName: "", newEventDate: new Date()})
   }
 
   newEventNameChanged = (event) => {
     this.setState({newEventName: event.target.value})
+  }
+
+  newEventDateChanged = (event) => {
+    console.log(event)
+    this.setState({newEventDate: event})
+  }
+
+  updateEventList = (events) => {
+    console.log(events)
+    this.setState({events: events})
   }
 
   eventCreated = ({eventName, creatorUsername}) => {
@@ -35,7 +51,9 @@ export default class SocketController extends Component {
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
+                      newEventDate={this.state.newEventDate}
                       createNewEvent={this.createNewEvent}
-                      newEventNameChanged={this.newEventNameChanged}/>
+                      newEventNameChanged={this.newEventNameChanged}
+                      newEventDateChanged={this.newEventDateChanged}/>
   }
 }

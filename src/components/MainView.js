@@ -8,12 +8,12 @@ export default class MainView extends Component {
     return (
       <div className="wrapper">
         <div className="main-view">
-          <div className="columns">
-            <span>Events!</span>
-            <NewEventInput newEventName={this.props.newEventName}
-                          newEventNameChanged={this.props.newEventNameChanged}
-                          createNewEvent={this.props.createNewEvent}/>
-          </div>
+          <h2>Events!</h2>
+          <NewEventInput newEventName={this.props.newEventName}
+                        newEventDate={this.props.newEventDate}
+                        newEventNameChanged={this.props.newEventNameChanged}
+                        createNewEvent={this.props.createNewEvent}
+                        newEventDateChanged={this.props.newEventDateChanged}/>
           <EventsList events={this.props.events}/>
         </div>
       </div>
