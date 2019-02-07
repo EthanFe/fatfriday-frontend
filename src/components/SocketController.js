@@ -25,9 +25,9 @@ export default class SocketController extends Component {
     this.socket.emit("createNewEvent", {
       name: this.state.newEventName,
       username: "exampleusername",
-      date: today()
+      date: this.state.newEventDate.getTime()
     })
-    this.setState({newEventName: "", newEventDate: new Date()})
+    this.setState({newEventName: "", newEventDate: today()})
   }
 
   newEventNameChanged = (event) => {
