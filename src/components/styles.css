@@ -8,17 +8,31 @@ html {
 .wrapper {
   width: 300px;
   padding: 50px;
-  margin: auto;
+  /* margin: auto; */
 }
 
 .main-view {
-  display: flex;
-  flex-flow: column;
+
 }
 
-.columns {
+.login-and-events-wrapper {
   display: flex;
   flex-flow: row;
+}
+
+.login-wrapper {
+  width: 200px;
+  padding: 25px;
+  padding-right: 400px
+}
+
+.login-area {
+  width: 200px;
+}
+
+.events-list-wrapper {
+  display: flex;
+  flex-flow: column;
 }
 
 .events-list {
@@ -29,6 +43,7 @@ html {
 .event-display {
   padding: 5px;
   height: 140px;
+  width: 200px;
 
   border-width: 0px 1px 1px 0px;
   border-style: solid;

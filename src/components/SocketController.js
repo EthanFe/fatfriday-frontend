@@ -6,7 +6,9 @@ export default class SocketController extends Component {
   state = {
     events: [],
     newEventName: "",
-    newEventDate: today()
+    newEventDate: today(),
+    loginName: "",
+    loggedInAs: null
   }
 
   componentDidMount = () => {
@@ -19,6 +21,7 @@ export default class SocketController extends Component {
     this.socket = socket
     socket.on("eventCreated", this.eventCreated)
     socket.on("eventList", this.updateEventList)
+    socket.on("loggedIn", this.loginSuccess)
   }
 
   createNewEvent = () => {
@@ -35,17 +38,34 @@ export default class SocketController extends Component {
   }
 
   newEventDateChanged = (event) => {
-    console.log(event)
     this.setState({newEventDate: event})
   }
 
   updateEventList = (events) => {
-    console.log(events)
     this.setState({events: events})
   }
 
   eventCreated = ({eventName, creatorUsername}) => {
     this.setState({events: [...this.state.events, {name: eventName}]})
+  }
+
+  loginNameChanged = (event) => {
+    this.setState({loginName: event.target.value})
+  }
+
+  loginButtonPressed = (event) => {
+    event.preventDefault()
+    this.socket.emit("login", {
+      username: this.state.loginName
+    })
+  }
+
+  loginSuccess = (user) => {
+    this.setState({loginName: "", loggedInAs: user})
+  }
+
+  logoutButtonPressed = () => {
+    this.setState({loggedInAs: null})
   }
 
   render() {
@@ -54,6 +74,12 @@ export default class SocketController extends Component {
                       newEventDate={this.state.newEventDate}
                       createNewEvent={this.createNewEvent}
                       newEventNameChanged={this.newEventNameChanged}
-                      newEventDateChanged={this.newEventDateChanged}/>
+                      newEventDateChanged={this.newEventDateChanged}
+                      loginName={this.state.loginName}
+                      loginNameChanged={this.loginNameChanged}
+                      loginButtonPressed={this.loginButtonPressed}
+                      loggedInAs={this.state.loggedInAs ? this.state.loggedInAs.name : null}
+                      logoutButtonPressed={this.logoutButtonPressed}
+                      />
   }
 }
