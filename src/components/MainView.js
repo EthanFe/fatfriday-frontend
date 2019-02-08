@@ -26,7 +26,11 @@ export default class MainView extends Component {
                             newEventNameChanged={this.props.newEventNameChanged}
                             createNewEvent={this.props.createNewEvent}
                             newEventDateChanged={this.props.newEventDateChanged}/> : null}
-              <EventsList events={this.props.events}/>
+              <EventsList events={this.props.events}
+                          invitableUsers={this.props.invitableUsers}
+                          invitingUserText={this.props.invitingUserText}
+                          invitingUserTextChanged={this.props.invitingUserTextChanged}
+                          inviteUser={this.props.inviteUser}/>
             </div>
           </div>
         </div>

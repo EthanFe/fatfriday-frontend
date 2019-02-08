@@ -8,7 +8,9 @@ export default class SocketController extends Component {
     newEventName: "",
     newEventDate: today(),
     loginName: "",
-    loggedInAs: null
+    loggedInAs: null,
+    invitableUsers: [],
+    invitingUserText: ""
   }
 
   componentDidMount = () => {
@@ -21,6 +23,7 @@ export default class SocketController extends Component {
     this.socket = socket
     socket.on("eventCreated", this.eventCreated)
     socket.on("eventList", this.updateEventList)
+    socket.on("invitableUsersList", this.updateInvitableUsersList)
     socket.on("loggedIn", this.loginSuccess)
   }
 
@@ -43,6 +46,21 @@ export default class SocketController extends Component {
 
   updateEventList = (events) => {
     this.setState({events: events})
+  }
+
+  updateInvitableUsersList = (users) => {
+    this.setState({invitableUsers: users})
+  }
+
+  invitingUserTextChanged = (text) => {
+    this.setState({invitingUserText: text})
+  }
+  
+  inviteUser = (username, eventID) => {
+    this.socket.emit("inviteUserToEvent", {
+      username: username,
+      event_id: eventID
+    })
   }
 
   eventCreated = ({eventName, creatorUsername}) => {
@@ -80,6 +98,10 @@ export default class SocketController extends Component {
                       loginButtonPressed={this.loginButtonPressed}
                       loggedInAs={this.state.loggedInAs ? this.state.loggedInAs.name : null}
                       logoutButtonPressed={this.logoutButtonPressed}
+                      invitableUsers={this.state.invitableUsers}
+                      invitingUserText={this.state.invitingUserText}
+                      invitingUserTextChanged={this.invitingUserTextChanged}
+                      inviteUser={this.inviteUser}
                       />
   }
 }

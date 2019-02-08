@@ -42,7 +42,7 @@ html {
 
 .event-display {
   padding: 5px;
-  height: 140px;
+  height: 160px;
   width: 200px;
 
   border-width: 0px 1px 1px 0px;
@@ -79,4 +79,12 @@ html {
 .event-date {
   padding: 15px;
   font-size: 14px;
+}
+
+.invite-user-field {
+  padding-bottom: 15px;
+}
+
+.invite-user-label {
+  font-size: 12px;
 }
