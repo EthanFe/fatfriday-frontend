@@ -43,7 +43,7 @@ html {
 .event-display {
   padding: 5px;
   height: 160px;
-  width: 200px;
+  width: 280px;
 
   border-width: 0px 1px 1px 0px;
   border-style: solid;
@@ -52,11 +52,7 @@ html {
   margin-bottom: 10px;
 
   display: flex;
-  flex-flow: column;
-  justify-content: center;
-  /* flex-direction: column;
-  text-align: center; */
-
+  flex-flow: row;
 
   transition-duration: 250ms;
   transition-property: background-color, border-color;
@@ -65,6 +61,19 @@ html {
 .event-display:hover {
   background-color: #FFBFBE;
   border-color: rgba(190, 208, 230, 0.627);
+}
+
+.event-display-main {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  /* flex-direction: column;
+  text-align: center; */
+  width: 200px;
+}
+
+.event-display-members {
+  font-size: 10px;
 }
 
 .event-name {

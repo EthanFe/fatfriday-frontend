@@ -10,7 +10,8 @@ export default class SocketController extends Component {
     loginName: "",
     loggedInAs: null,
     invitableUsers: [],
-    invitingUserText: ""
+    invitingUserText: "",
+    invites: []
   }
 
   componentDidMount = () => {
@@ -21,10 +22,11 @@ export default class SocketController extends Component {
     const url = "http://localhost:3000"
     const socket = require('socket.io-client')(url);
     this.socket = socket
-    socket.on("eventCreated", this.eventCreated)
     socket.on("eventList", this.updateEventList)
     socket.on("invitableUsersList", this.updateInvitableUsersList)
     socket.on("loggedIn", this.loginSuccess)
+    socket.on("invitesList", this.updateInvitesList)
+    socket.on("initialData", this.setInitialData)
   }
 
   createNewEvent = () => {
@@ -52,19 +54,27 @@ export default class SocketController extends Component {
     this.setState({invitableUsers: users})
   }
 
+  updateInvitesList = (invites) => {
+    this.setState({invites: invites})
+  }
+
   invitingUserTextChanged = (text) => {
     this.setState({invitingUserText: text})
   }
   
-  inviteUser = (username, eventID) => {
+  inviteUser = (userID, eventID) => {
     this.socket.emit("inviteUserToEvent", {
-      username: username,
+      user_id: userID,
       event_id: eventID
     })
   }
 
-  eventCreated = ({eventName, creatorUsername}) => {
-    this.setState({events: [...this.state.events, {name: eventName}]})
+  setInitialData = ({events, users, invites}) => {
+    this.setState({
+      events: events,
+      invitableUsers: users,
+      invites: invites
+    })
   }
 
   loginNameChanged = (event) => {
@@ -102,6 +112,7 @@ export default class SocketController extends Component {
                       invitingUserText={this.state.invitingUserText}
                       invitingUserTextChanged={this.invitingUserTextChanged}
                       inviteUser={this.inviteUser}
+                      invites={this.state.invites}
                       />
   }
 }
