@@ -3,6 +3,7 @@ import EventDisplay from './EventDisplay';
 
 export default class EventsList extends Component {
   render() {
+    console.log(this.props.loggedInAs)
     const invitesByEvent = this.invitesByEvent(this.props.invites)
     const sortedEvents = this.props.events.sort((event1, event2) => new Date(event1.event_date).getTime() - new Date(event2.event_date).getTime())
     return (
@@ -13,7 +14,9 @@ export default class EventsList extends Component {
                                                   invitingUserText={this.props.invitingUserText}
                                                   invitingUserTextChanged={this.props.invitingUserTextChanged}
                                                   inviteUser={this.props.inviteUser}
-                                                  invites={invitesByEvent[event.id] || []}/>)}
+                                                  invites={invitesByEvent[event.id] || []}
+                                                  loggedInAs={this.props.loggedInAs}
+                                                  eventOwned={this.props.loggedInAs && this.props.loggedInAs.id === event.id}/>)}
       </div>
     )
   }

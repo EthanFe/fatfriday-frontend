@@ -106,7 +106,7 @@ export default class SocketController extends Component {
                       loginName={this.state.loginName}
                       loginNameChanged={this.loginNameChanged}
                       loginButtonPressed={this.loginButtonPressed}
-                      loggedInAs={this.state.loggedInAs ? this.state.loggedInAs.name : null}
+                      loggedInAs={this.state.loggedInAs}
                       logoutButtonPressed={this.logoutButtonPressed}
                       invitableUsers={this.state.invitableUsers}
                       invitingUserText={this.state.invitingUserText}

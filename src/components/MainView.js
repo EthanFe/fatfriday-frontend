@@ -15,7 +15,7 @@ export default class MainView extends Component {
                 loginName={this.props.loginName}
                 loginNameChanged={this.props.loginNameChanged}
                 loginButtonPressed={this.props.loginButtonPressed}
-                loggedInAs={this.props.loggedInAs}
+                loggedInAs={this.props.loggedInAs ? this.props.loggedInAs.name : null}
                 logoutButtonPressed={this.props.logoutButtonPressed}
               />
             </div>
@@ -31,7 +31,8 @@ export default class MainView extends Component {
                           invitingUserText={this.props.invitingUserText}
                           invitingUserTextChanged={this.props.invitingUserTextChanged}
                           inviteUser={this.props.inviteUser}
-                          invites={this.props.invites}/>
+                          invites={this.props.invites}
+                          loggedInAs={this.props.loggedInAs}/>
             </div>
           </div>
         </div>
