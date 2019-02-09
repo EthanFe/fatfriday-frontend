@@ -16,7 +16,8 @@ export default class EventsList extends Component {
                                                   inviteUser={this.props.inviteUser}
                                                   invites={invitesByEvent[event.id] || []}
                                                   loggedInAs={this.props.loggedInAs}
-                                                  eventOwned={this.props.loggedInAs && this.props.loggedInAs.id === event.id}/>)}
+                                                  eventOwned={this.props.loggedInAs && this.props.loggedInAs.id === event.created_by}
+                                                  acceptInvitation={this.props.acceptInvitation}/>)}
       </div>
     )
   }

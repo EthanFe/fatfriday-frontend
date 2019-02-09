@@ -96,6 +96,13 @@ export default class SocketController extends Component {
     this.setState({loggedInAs: null})
   }
 
+  acceptInvitation = (event_id) => {
+    this.socket.emit("acceptInvitation", {
+      user_id: this.state.loggedInAs.id,
+      event_id: event_id
+    })
+  }
+
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
@@ -113,6 +120,7 @@ export default class SocketController extends Component {
                       invitingUserTextChanged={this.invitingUserTextChanged}
                       inviteUser={this.inviteUser}
                       invites={this.state.invites}
+                      acceptInvitation={this.acceptInvitation}
                       />
   }
 }

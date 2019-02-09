@@ -17,9 +17,19 @@ export default class EventDisplay extends Component {
 
   render() {
     const invitableUsersById = index(this.props.invitableUsers, "id")
+
+    const inviteAcceptedUsers = this.props.invites.filter(invite => invite.accepted).map(invite => invitableUsersById[invite.user_id])
+    const invitePendingUsers = this.props.invites.filter(invite => !invite.accepted).map(invite => invitableUsersById[invite.user_id])
+
     const usersExcludingSelf = this.props.invitableUsers.filter(user => !this.props.loggedInAs || user.id !== this.props.loggedInAs.id)
     return (
       <div className="event-display">
+        <div className="event-display-members">
+          <div className="invited-users-list">
+            <div>Users going:</div>
+            {inviteAcceptedUsers.map(user => <div key={user.id}>{user.name}</div> )}
+          </div>
+        </div>
         <div className="event-display-main">
           <span className="event-name">{this.props.data.name}</span>
           <span className="event-date">{new Date(this.props.data.event_date).toLocaleString()}</span>
@@ -48,8 +58,15 @@ export default class EventDisplay extends Component {
           <div className="event-display-members">
             <div className="invited-users-list">
               <div>Users already invited:</div>
-              {this.props.invites.map(invite => <div key={[invite.user_id, invite.event_id]}>{`${invitableUsersById[invite.user_id].name}`}</div> )}
+              {invitePendingUsers.map(user => <div key={user.id}>{user.name}</div> )}
             </div>
+            {this.props.loggedInAs && invitePendingUsers.find(invite => {
+              return invite.id === this.props.loggedInAs.id
+              }) !== undefined ? (
+              <div className="join-event">
+                <button className="join-event-button" onClick={() => this.props.acceptInvitation(this.props.data.id)}>Join Event</button>
+              </div>
+            ) : null}
           </div>
       </div>
     )

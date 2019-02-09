@@ -32,7 +32,8 @@ export default class MainView extends Component {
                           invitingUserTextChanged={this.props.invitingUserTextChanged}
                           inviteUser={this.props.inviteUser}
                           invites={this.props.invites}
-                          loggedInAs={this.props.loggedInAs}/>
+                          loggedInAs={this.props.loggedInAs}
+                          acceptInvitation={this.props.acceptInvitation}/>
             </div>
           </div>
         </div>

@@ -59,8 +59,8 @@ html {
 }
 
 .event-display:hover {
-  background-color: #FFBFBE;
-  border-color: rgba(190, 208, 230, 0.627);
+  /* background-color: #FFBFBE;
+  border-color: rgba(190, 208, 230, 0.627); */
 }
 
 .event-display-main {
@@ -69,7 +69,7 @@ html {
   justify-content: center;
   /* flex-direction: column;
   text-align: center; */
-  width: 200px;
+  width: 300px;
 }
 
 .event-display-members {
@@ -90,10 +90,46 @@ html {
   font-size: 14px;
 }
 
+.invited-users-list {
+  height: 70%;
+}
+
 .invite-user-field {
   padding-bottom: 15px;
 }
 
 .invite-user-label {
   font-size: 12px;
+}
+
+.join-event {
+
+}
+
+.join-event-button {
+  background-color: #00B258;
+  border-color: #D6FADC;
+  width: 80px;
+  height: 30px;
+  border-radius: 4px;
+
+  transition-duration: 175ms;
+  transition-property: background-color, border-color, box-shadow;
+  box-shadow: 0px 0px 3px 1px #D6FADC80;
+}
+
+.join-event-button:focus {
+  outline: 0;
+}
+
+.join-event-button:active {
+  /* box-shadow: 0px 0px 5px 4px #D6FADC80; */
+  box-shadow: 0px 0px 5px 4px #D6FADC80;
+  background-color: #6BD69A;
+  border-style: solid;
+}
+
+.join-event-button:hover {
+  /* background-color: #6BD69A; */
+  box-shadow: 0px 0px 5px 4px #D6FADC80;
 }
