@@ -11,7 +11,9 @@ export default class SocketController extends Component {
     loggedInAs: null,
     invitableUsers: [],
     invitingUserText: "",
-    invites: []
+    invites: [],
+    placeSearchText: "",
+    placeSearchAutocompletes: []
   }
 
   componentDidMount = () => {
@@ -27,6 +29,7 @@ export default class SocketController extends Component {
     socket.on("loggedIn", this.loginSuccess)
     socket.on("invitesList", this.updateInvitesList)
     socket.on("initialData", this.setInitialData)
+    socket.on("placeNameMatches", this.setPlaceSearchAutocompletes)
   }
 
   createNewEvent = () => {
@@ -103,6 +106,33 @@ export default class SocketController extends Component {
     })
   }
 
+  placeSearchTextChanged = (text) => {
+    const autoCompleteBuildupTime = 250 //ms
+
+    if (this.autoCompleteBuildupTimer !== null) {
+      clearTimeout(this.autoCompleteBuildupTimer)
+      this.autoCompleteBuildupTimer = null
+    }
+    if (text !== "") {
+      this.autoCompleteBuildupTimer = setTimeout(() => {
+        this.socket.emit("placeTextEntered", {
+          text: text
+        })
+        this.autoCompleteBuildupTimer = null
+      }, autoCompleteBuildupTime)
+    } else {
+      this.setState({placeSearchAutocompletes: []})
+    }
+
+    this.setState({
+      placeSearchText: text
+    })
+  }
+
+  setPlaceSearchAutocompletes = (places) => {
+    this.setState({placeSearchAutocompletes: places})
+  }
+
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
@@ -121,6 +151,9 @@ export default class SocketController extends Component {
                       inviteUser={this.inviteUser}
                       invites={this.state.invites}
                       acceptInvitation={this.acceptInvitation}
+                      placeSearchText={this.state.placeSearchText}
+                      placeSearchTextChanged={this.placeSearchTextChanged}
+                      placeSearchAutocompletes={this.state.placeSearchAutocompletes}
                       />
   }
 }

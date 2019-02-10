@@ -33,7 +33,10 @@ export default class MainView extends Component {
                           inviteUser={this.props.inviteUser}
                           invites={this.props.invites}
                           loggedInAs={this.props.loggedInAs}
-                          acceptInvitation={this.props.acceptInvitation}/>
+                          acceptInvitation={this.props.acceptInvitation}
+                          placeSearchText={this.props.placeSearchText}
+                          placeSearchTextChanged={this.props.placeSearchTextChanged}
+                          placeSearchAutocompletes={this.props.placeSearchAutocompletes}/>
             </div>
           </div>
         </div>

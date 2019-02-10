@@ -43,7 +43,7 @@ html {
 .event-display {
   padding: 5px;
   height: 160px;
-  width: 280px;
+  width: 325px;
 
   border-width: 0px 1px 1px 0px;
   border-style: solid;
@@ -52,7 +52,7 @@ html {
   margin-bottom: 10px;
 
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
 
   transition-duration: 250ms;
   transition-property: background-color, border-color;
@@ -65,15 +65,21 @@ html {
 
 .event-display-main {
   display: flex;
+  flex-flow: row;
+}
+
+.event-display-title {
+  display: flex;
   flex-flow: column;
   justify-content: center;
+  flex: 3;
   /* flex-direction: column;
   text-align: center; */
-  width: 300px;
 }
 
 .event-display-members {
   font-size: 10px;
+  flex: 1;
 }
 
 .event-name {
@@ -88,6 +94,11 @@ html {
 .event-date {
   padding: 15px;
   font-size: 14px;
+}
+
+.event-display-place-suggestion {
+  display: flex;
+  flex-flow: column;
 }
 
 .invited-users-list {
