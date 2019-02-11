@@ -5,6 +5,18 @@ import VoteCount from './VoteCount.js';
 import FlipMove from 'react-flip-move';
 
 export default class EventDisplay extends Component {
+  dropDownStyle = {
+    borderRadius: '3px',
+    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+    background: 'rgba(255, 255, 255, 0.9)',
+    padding: '2px 0',
+    fontSize: '90%',
+    position: 'fixed',
+    overflow: 'auto',
+    maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
+    "z-index": "1"
+  }
+  
   render() {
     const invitableUsersById = index(this.props.invitableUsers, "id")
 
@@ -44,6 +56,7 @@ export default class EventDisplay extends Component {
                   onChange={(event) => this.props.invitingUserTextChanged(event.target.value)}
                   onSelect={(value, item) => this.props.inviteUser(item.id, this.props.data.id)}
                   shouldItemRender={(user, input) => this.doesNameContainInput(user.name, input)}
+                  menuStyle={this.dropDownStyle}
                 />
               </div>
             ) : null}
@@ -77,6 +90,7 @@ export default class EventDisplay extends Component {
               onChange={(event) => this.props.placeSearchTextChanged(event.target.value)}
               onSelect={(value, item) => this.props.suggestPlace(item.placeID, item.placeName, this.props.data.id)}
               shouldItemRender={(place, input) => this.doesNameContainInput(place.placeName, input)}
+              menuStyle={this.dropDownStyle}
             />
           </div>
         ) : null}
