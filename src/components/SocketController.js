@@ -149,11 +149,12 @@ export default class SocketController extends Component {
     })
   }
 
-  placeClickedOn = (place_id, event_id) => {
+  placeClickedOn = (place_id, event_id, alreadyVoted) => {
     this.socket.emit("voteForPlace", {
       user_id: this.state.loggedInAs.id,
       place_id: place_id,
-      event_id: event_id
+      event_id: event_id,
+      setVoteTo: !alreadyVoted
     })
   }
 

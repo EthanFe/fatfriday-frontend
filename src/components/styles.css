@@ -153,14 +153,18 @@ html {
                                 supported by Chrome and Opera */
 }
 
+.event-display-place-list-entry.voted-for {
+  background-color: #00B258;
+}
+
 .event-display-place-list-entry.clickable {
   box-shadow: 0px 0px 3px 1px #D6FADC80;
   border-color: #D6FADC;
 }
 
 .event-display-place-list-entry.clickable:hover {
-  background-color: #00B258;
-  /* background-color: #6BD69A; */
+  /* background-color: #00B258; */
+  background-color: #6BD69A;
   box-shadow: 0px 0px 5px 4px #D6FADC80;
 }
 

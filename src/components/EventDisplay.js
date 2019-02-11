@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
-// import anime from 'animejs'
 import Autocomplete from 'react-autocomplete'
 import {index} from "../utility.js"
+import VoteCount from './VoteCount.js';
+import FlipMove from 'react-flip-move';
 
 export default class EventDisplay extends Component {
-  // componentDidUpdate = (prevProps) => {
-  //   const animation = anime({
-  //     targets: '.event-name',
-  //     color: "#000000",
-  //     easing: 'easeInQuint',
-  //     duration: 500,
-  //     "font-size": "18px"
-  //   });
-  //   animation.restart()
-  // }
-
   render() {
     const invitableUsersById = index(this.props.invitableUsers, "id")
 
     const inviteAcceptedUsers = this.props.invites.filter(invite => invite.accepted).map(invite => invitableUsersById[invite.user_id])
     const invitePendingUsers = this.props.invites.filter(invite => !invite.accepted).map(invite => invitableUsersById[invite.user_id])
     const viewingAsMember = this.viewingAsMember(inviteAcceptedUsers)
-    const sortedPlaces = this.props.placeSuggestions.sort((place1, place2) => place2.votes - place1.votes)
+    const sortedPlaces = this.props.placeSuggestions.sort((place1, place2) => place2.votes.length - place1.votes.length)
 
     const usersExcludingSelf = this.props.invitableUsers.filter(user => !this.props.loggedInAs || user.id !== this.props.loggedInAs.id)
     return (
@@ -91,21 +81,28 @@ export default class EventDisplay extends Component {
           </div>
         ) : null}
         <div className="event-display-place-list">
-          {sortedPlaces.map(place => 
-            <div className="event-display-place-list-entry-container">
-              <div className="vote-count">{place.votes}</div>
-              {viewingAsMember ? (
-                <div className="event-display-place-list-entry clickable"
-                    onClick={() => this.props.placeClickedOn(place.google_place_id, this.props.data.id)}>
-                  {place.name} 
+          <FlipMove>
+            {sortedPlaces.map(place => {
+              const votedFor = this.votedFor(place)
+              const entryClassName = "event-display-place-list-entry" + (votedFor ? " voted-for" : "")
+              const id = `${place.google_place_id}${this.props.data.id}`
+              return (
+                <div className="event-display-place-list-entry-container" key={id}>
+                  <VoteCount votes={place.votes.length} id={id}/>
+                  {viewingAsMember ? (
+                    <div className={`${entryClassName} clickable`}
+                        onClick={() => this.props.placeClickedOn(place.google_place_id, this.props.data.id, votedFor)}>
+                      {place.name} 
+                    </div>
+                  ) : (
+                    <div className={`${entryClassName}`}>
+                      {place.name} 
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="event-display-place-list-entry">
-                  {place.name} 
-                </div>
-              )}
-            </div>
-            )}
+              )
+            })}
+          </FlipMove>
         </div>
       </div>
     )
@@ -119,5 +116,9 @@ export default class EventDisplay extends Component {
     return this.props.loggedInAs && (this.props.eventOwned || inviteAcceptedUsers.find(invite => {
       return invite.id === this.props.loggedInAs.id
     }) !== undefined)
+  }
+
+  votedFor = (place) => {
+    return this.props.loggedInAs && place.votes.find(place => place.user_id === this.props.loggedInAs.id) !== undefined
   }
 }
