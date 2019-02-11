@@ -12,9 +12,18 @@ export default class MainView extends Component {
           <div className="login-and-events-wrapper">
             <div className="login-wrapper">
               <LoginArea 
-                loginName={this.props.loginName}
-                loginNameChanged={this.props.loginNameChanged}
+                loginUsername={this.props.loginUsername}
+                loginPassword={this.props.loginPassword}
+                loginUsernameChanged={this.props.loginUsernameChanged}
+                loginPasswordChanged={this.props.loginPasswordChanged}
                 loginButtonPressed={this.props.loginButtonPressed}
+
+                newUsername={this.props.newUsername}
+                newPassword={this.props.newPassword}
+                newUsernameChanged={this.props.newUsernameChanged}
+                newPasswordChanged={this.props.newPasswordChanged}
+                createNewUser={this.props.createNewUser}
+                
                 loggedInAs={this.props.loggedInAs ? this.props.loggedInAs.name : null}
                 logoutButtonPressed={this.props.logoutButtonPressed}
               />

@@ -7,7 +7,10 @@ export default class SocketController extends Component {
     events: [],
     newEventName: "",
     newEventDate: today(),
-    loginName: "",
+    loginUsername: "",
+    loginPassword: "",
+    newUsername: "",
+    newPassword: "",
     loggedInAs: null,
     invitableUsers: [],
     invitingUserText: "",
@@ -87,19 +90,42 @@ export default class SocketController extends Component {
     })
   }
 
-  loginNameChanged = (event) => {
-    this.setState({loginName: event.target.value})
+  loginUsernameChanged = (event) => {
+    this.setState({loginUsername: event.target.value})
+  }
+
+  loginPasswordChanged = (event) => {
+    this.setState({loginPassword: event.target.value})
   }
 
   loginButtonPressed = (event) => {
     event.preventDefault()
     this.socket.emit("login", {
-      username: this.state.loginName
+      username: this.state.loginUsername,
+      password: this.state.loginPassword
     })
+    this.setState({newUsername: "", newPassword: "", loginUsername: "", loginPassword: ""})
+  }
+
+  newUsernameChanged = (event) => {
+    this.setState({newUsername: event.target.value})
+  }
+
+  newPasswordChanged = (event) => {
+    this.setState({newPassword: event.target.value})
+  }
+
+  createNewUser = (event) => {
+    event.preventDefault()
+    this.socket.emit("signUp", {
+      username: this.state.newUsername,
+      password: this.state.newPassword
+    })
+    this.setState({newUsername: "", newPassword: "", loginUsername: "", loginPassword: ""})
   }
 
   loginSuccess = (user) => {
-    this.setState({loginName: "", loggedInAs: user})
+    this.setState({loggedInAs: user})
   }
 
   logoutButtonPressed = () => {
@@ -165,11 +191,20 @@ export default class SocketController extends Component {
                       createNewEvent={this.createNewEvent}
                       newEventNameChanged={this.newEventNameChanged}
                       newEventDateChanged={this.newEventDateChanged}
-                      loginName={this.state.loginName}
-                      loginNameChanged={this.loginNameChanged}
+
+                      loginUsername={this.state.loginUsername}
+                      loginPassword={this.state.loginPassword}
+                      loginUsernameChanged={this.loginUsernameChanged}
+                      loginPasswordChanged={this.loginPasswordChanged}
                       loginButtonPressed={this.loginButtonPressed}
+                      newUsername={this.state.newUsername}
+                      newPassword={this.state.newPassword}
+                      newUsernameChanged={this.newUsernameChanged}
+                      newPasswordChanged={this.newPasswordChanged}
+                      createNewUser={this.createNewUser}
                       loggedInAs={this.state.loggedInAs}
                       logoutButtonPressed={this.logoutButtonPressed}
+
                       invitableUsers={this.state.invitableUsers}
                       invitingUserText={this.state.invitingUserText}
                       invitingUserTextChanged={this.invitingUserTextChanged}

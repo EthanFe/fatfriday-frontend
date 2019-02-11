@@ -5,8 +5,14 @@ export default class LoginArea extends Component {
     return this.props.loggedInAs === null ? (
       <div className="login-area">
         <form>
-          <input type="text" placeholder="Username" value={this.props.loginName} onChange={this.props.loginNameChanged}/>
+          <input type="text" placeholder="Username" value={this.props.loginUsername} onChange={this.props.loginUsernameChanged}/>
+          <input type="password" placeholder="Password" value={this.props.loginPassword} onChange={this.props.loginPasswordChanged}/>
           <div><button onClick={this.props.loginButtonPressed}>Login</button></div>
+        </form>
+        <form>
+          <input type="text" placeholder="Username" value={this.props.newUsername} onChange={this.props.newUsernameChanged}/>
+          <input type="password" placeholder="Password" value={this.props.newPassword} onChange={this.props.newPasswordChanged}/>
+          <div><button onClick={this.props.createNewUser}>Sign Up</button></div>
         </form>
       </div>
     ) : (
