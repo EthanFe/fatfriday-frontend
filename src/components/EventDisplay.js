@@ -70,21 +70,28 @@ export default class EventDisplay extends Component {
             ) : null}
           </div>
         </div>
-        <div className="event-display-place-suggestion">
-          <div className="invite-user-label">Suggest a Place</div>
-          <Autocomplete
-            getItemValue={(item) => item}
-            items={this.props.placeSearchAutocompletes}
-            renderItem={(item, isHighlighted) =>
-              <div style={{background: isHighlighted ? 'lightgray' : 'white'}}>
-                {item}
-              </div>
-            }
-            value={this.props.placeSearchText}
-            onChange={(event) => this.props.placeSearchTextChanged(event.target.value)}
-            onSelect={(value) => this.props.placeSearchTextChanged(value)}
-            shouldItemRender={(placeName, input) => this.doesNameContainInput(placeName, input)}
-          />
+        {this.props.loggedInAs && (this.props.eventOwned || inviteAcceptedUsers.find(invite => {
+          return invite.id === this.props.loggedInAs.id
+          }) !== undefined) ? (
+          <div className="event-display-place-suggestion">
+            <div className="invite-user-label">Suggest a Place</div>
+            <Autocomplete
+              getItemValue={(item) => item.placeName}
+              items={this.props.placeSearchAutocompletes}
+              renderItem={(item, isHighlighted) =>
+                <div style={{background: isHighlighted ? 'lightgray' : 'white'}}>
+                  {item.placeName}
+                </div>
+              }
+              value={this.props.placeSearchText}
+              onChange={(event) => this.props.placeSearchTextChanged(event.target.value)}
+              onSelect={(value, item) => this.props.suggestPlace(item.placeID, item.placeName, this.props.data.id)}
+              shouldItemRender={(place, input) => this.doesNameContainInput(place.placeName, input)}
+            />
+          </div>
+        ) : null}
+        <div className="event-display-place-list">
+          {this.props.placeSuggestions.map(place => <div className="event-display-place-list-entry">{place.name}</div>)}
         </div>
       </div>
     )

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import EventDisplay from './EventDisplay';
+import {group} from '../utility.js'
 
 export default class EventsList extends Component {
   render() {
-    const invitesByEvent = this.invitesByEvent(this.props.invites)
+    const invitesByEvent = group(this.props.invites, "event_id")
+    const placeSuggestionsByEvent = group(this.props.placeSuggestions, "event_id")
     const sortedEvents = this.props.events.sort((event1, event2) => new Date(event1.event_date).getTime() - new Date(event2.event_date).getTime())
     return (
       <div className="events-list">
@@ -19,17 +21,11 @@ export default class EventsList extends Component {
                                                   acceptInvitation={this.props.acceptInvitation}
                                                   placeSearchText={this.props.placeSearchText}
                                                   placeSearchTextChanged={this.props.placeSearchTextChanged}
-                                                  placeSearchAutocompletes={this.props.placeSearchAutocompletes}/>)}
+                                                  placeSearchAutocompletes={this.props.placeSearchAutocompletes}
+                                                  suggestPlace={this.props.suggestPlace}
+                                                  placeSuggestions={placeSuggestionsByEvent[event.id] || []}
+                                                  />)}
       </div>
     )
-  }
-
-  invitesByEvent = (invites) => {
-    const invitesByEvent = {}
-    invites.forEach(invite => {
-      invitesByEvent[invite.event_id] = invitesByEvent[invite.event_id] || []
-      invitesByEvent[invite.event_id].push(invite)
-    })
-    return invitesByEvent
   }
 }

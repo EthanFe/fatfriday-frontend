@@ -13,7 +13,8 @@ export default class SocketController extends Component {
     invitingUserText: "",
     invites: [],
     placeSearchText: "",
-    placeSearchAutocompletes: []
+    placeSearchAutocompletes: [],
+    placeSuggestions: []
   }
 
   componentDidMount = () => {
@@ -24,12 +25,13 @@ export default class SocketController extends Component {
     const url = "http://localhost:3000"
     const socket = require('socket.io-client')(url);
     this.socket = socket
+    socket.on("initialData", this.setInitialData)
     socket.on("eventList", this.updateEventList)
     socket.on("invitableUsersList", this.updateInvitableUsersList)
     socket.on("loggedIn", this.loginSuccess)
     socket.on("invitesList", this.updateInvitesList)
-    socket.on("initialData", this.setInitialData)
     socket.on("placeNameMatches", this.setPlaceSearchAutocompletes)
+    socket.on("placeSuggestions", this.updatePlaceSuggestions)
   }
 
   createNewEvent = () => {
@@ -64,6 +66,10 @@ export default class SocketController extends Component {
   invitingUserTextChanged = (text) => {
     this.setState({invitingUserText: text})
   }
+
+  updatePlaceSuggestions = (placeSuggestions) => {
+    this.setState({placeSuggestions: placeSuggestions})
+  }
   
   inviteUser = (userID, eventID) => {
     this.socket.emit("inviteUserToEvent", {
@@ -72,11 +78,12 @@ export default class SocketController extends Component {
     })
   }
 
-  setInitialData = ({events, users, invites}) => {
+  setInitialData = ({events, users, invites, placeSuggestions}) => {
     this.setState({
       events: events,
       invitableUsers: users,
-      invites: invites
+      invites: invites,
+      placeSuggestions: placeSuggestions
     })
   }
 
@@ -133,6 +140,15 @@ export default class SocketController extends Component {
     this.setState({placeSearchAutocompletes: places})
   }
 
+  suggestPlace = (placeID, placeName, eventID) => {
+    this.socket.emit("suggestPlace", {
+      user_id: this.state.loggedInAs.id,
+      place_id: placeID,
+      place_name: placeName,
+      event_id: eventID
+    })
+  }
+
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
@@ -154,6 +170,8 @@ export default class SocketController extends Component {
                       placeSearchText={this.state.placeSearchText}
                       placeSearchTextChanged={this.placeSearchTextChanged}
                       placeSearchAutocompletes={this.state.placeSearchAutocompletes}
+                      suggestPlace={this.suggestPlace}
+                      placeSuggestions={this.state.placeSuggestions}
                       />
   }
 }

@@ -14,4 +14,14 @@ const index = (array, key) => {
   }, new Object)
 }
 
-module.exports = {today, index}
+const group = (array, key) => {
+  return array.reduce( (object, element) => {
+    // eslint-disable-next-line
+    object[element[key]] = object[element[key]] || new Array
+    object[element[key]].push(element)
+    return object
+    // eslint-disable-next-line
+  }, new Object)
+}
+
+module.exports = {today, index, group}

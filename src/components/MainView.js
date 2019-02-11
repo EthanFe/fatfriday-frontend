@@ -36,7 +36,9 @@ export default class MainView extends Component {
                           acceptInvitation={this.props.acceptInvitation}
                           placeSearchText={this.props.placeSearchText}
                           placeSearchTextChanged={this.props.placeSearchTextChanged}
-                          placeSearchAutocompletes={this.props.placeSearchAutocompletes}/>
+                          placeSearchAutocompletes={this.props.placeSearchAutocompletes}
+                          suggestPlace={this.props.suggestPlace}
+                          placeSuggestions={this.props.placeSuggestions}/>
             </div>
           </div>
         </div>
