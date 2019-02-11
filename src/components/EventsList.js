@@ -24,6 +24,7 @@ export default class EventsList extends Component {
                                                   placeSearchAutocompletes={this.props.placeSearchAutocompletes}
                                                   suggestPlace={this.props.suggestPlace}
                                                   placeSuggestions={placeSuggestionsByEvent[event.id] || []}
+                                                  placeClickedOn={this.props.placeClickedOn}
                                                   />)}
       </div>
     )

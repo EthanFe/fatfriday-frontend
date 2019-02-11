@@ -149,6 +149,14 @@ export default class SocketController extends Component {
     })
   }
 
+  placeClickedOn = (place_id, event_id) => {
+    this.socket.emit("voteForPlace", {
+      user_id: this.state.loggedInAs.id,
+      place_id: place_id,
+      event_id: event_id
+    })
+  }
+
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
@@ -172,6 +180,7 @@ export default class SocketController extends Component {
                       placeSearchAutocompletes={this.state.placeSearchAutocompletes}
                       suggestPlace={this.suggestPlace}
                       placeSuggestions={this.state.placeSuggestions}
+                      placeClickedOn={this.placeClickedOn}
                       />
   }
 }

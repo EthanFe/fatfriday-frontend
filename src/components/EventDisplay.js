@@ -20,6 +20,8 @@ export default class EventDisplay extends Component {
 
     const inviteAcceptedUsers = this.props.invites.filter(invite => invite.accepted).map(invite => invitableUsersById[invite.user_id])
     const invitePendingUsers = this.props.invites.filter(invite => !invite.accepted).map(invite => invitableUsersById[invite.user_id])
+    const viewingAsMember = this.viewingAsMember(inviteAcceptedUsers)
+    const sortedPlaces = this.props.placeSuggestions.sort((place1, place2) => place2.votes - place1.votes)
 
     const usersExcludingSelf = this.props.invitableUsers.filter(user => !this.props.loggedInAs || user.id !== this.props.loggedInAs.id)
     return (
@@ -70,9 +72,7 @@ export default class EventDisplay extends Component {
             ) : null}
           </div>
         </div>
-        {this.props.loggedInAs && (this.props.eventOwned || inviteAcceptedUsers.find(invite => {
-          return invite.id === this.props.loggedInAs.id
-          }) !== undefined) ? (
+        {viewingAsMember ? (
           <div className="event-display-place-suggestion">
             <div className="invite-user-label">Suggest a Place</div>
             <Autocomplete
@@ -91,7 +91,21 @@ export default class EventDisplay extends Component {
           </div>
         ) : null}
         <div className="event-display-place-list">
-          {this.props.placeSuggestions.map(place => <div className="event-display-place-list-entry">{place.name}</div>)}
+          {sortedPlaces.map(place => 
+            <div className="event-display-place-list-entry-container">
+              <div className="vote-count">{place.votes}</div>
+              {viewingAsMember ? (
+                <div className="event-display-place-list-entry clickable"
+                    onClick={() => this.props.placeClickedOn(place.google_place_id, this.props.data.id)}>
+                  {place.name} 
+                </div>
+              ) : (
+                <div className="event-display-place-list-entry">
+                  {place.name} 
+                </div>
+              )}
+            </div>
+            )}
         </div>
       </div>
     )
@@ -99,5 +113,11 @@ export default class EventDisplay extends Component {
 
   doesNameContainInput = (name, input) => {
     return name.toLowerCase().indexOf(input.toLowerCase()) !== -1
+  }
+
+  viewingAsMember = (inviteAcceptedUsers) => {
+    return this.props.loggedInAs && (this.props.eventOwned || inviteAcceptedUsers.find(invite => {
+      return invite.id === this.props.loggedInAs.id
+    }) !== undefined)
   }
 }

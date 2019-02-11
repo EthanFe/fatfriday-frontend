@@ -38,7 +38,8 @@ export default class MainView extends Component {
                           placeSearchTextChanged={this.props.placeSearchTextChanged}
                           placeSearchAutocompletes={this.props.placeSearchAutocompletes}
                           suggestPlace={this.props.suggestPlace}
-                          placeSuggestions={this.props.placeSuggestions}/>
+                          placeSuggestions={this.props.placeSuggestions}
+                          placeClickedOn={this.props.placeClickedOn}/>
             </div>
           </div>
         </div>
