@@ -39,6 +39,7 @@ export default class SocketController extends Component {
 
   createNewEvent = () => {
     this.socket.emit("createNewEvent", {
+      token: this.state.loggedInAs.token,
       name: this.state.newEventName,
       user_id: this.state.loggedInAs.id,
       date: this.state.newEventDate.getTime()
@@ -76,6 +77,7 @@ export default class SocketController extends Component {
   
   inviteUser = (userID, eventID) => {
     this.socket.emit("inviteUserToEvent", {
+      token: this.state.loggedInAs.token,
       user_id: userID,
       event_id: eventID
     })
@@ -124,7 +126,7 @@ export default class SocketController extends Component {
     this.setState({newUsername: "", newPassword: "", loginUsername: "", loginPassword: ""})
   }
 
-  loginSuccess = (user) => {
+  loginSuccess = ({user}) => {
     this.setState({loggedInAs: user})
   }
 
@@ -134,6 +136,7 @@ export default class SocketController extends Component {
 
   acceptInvitation = (event_id) => {
     this.socket.emit("acceptInvitation", {
+      token: this.state.loggedInAs.token,
       user_id: this.state.loggedInAs.id,
       event_id: event_id
     })
@@ -149,6 +152,7 @@ export default class SocketController extends Component {
     if (text !== "") {
       this.autoCompleteBuildupTimer = setTimeout(() => {
         this.socket.emit("placeTextEntered", {
+          token: this.state.loggedInAs.token,
           text: text
         })
         this.autoCompleteBuildupTimer = null
@@ -168,6 +172,7 @@ export default class SocketController extends Component {
 
   suggestPlace = (placeID, placeName, eventID) => {
     this.socket.emit("suggestPlace", {
+      token: this.state.loggedInAs.token,
       user_id: this.state.loggedInAs.id,
       place_id: placeID,
       place_name: placeName,
@@ -177,6 +182,7 @@ export default class SocketController extends Component {
 
   placeClickedOn = (place_id, event_id, alreadyVoted) => {
     this.socket.emit("voteForPlace", {
+      token: this.state.loggedInAs.token,
       user_id: this.state.loggedInAs.id,
       place_id: place_id,
       event_id: event_id,
