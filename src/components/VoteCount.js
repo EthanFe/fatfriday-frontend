@@ -27,7 +27,6 @@ export default class VoteCount extends Component {
     } else if (prevProps.votes > this.props.votes) {
       this.negativeAnimation.restart()
     }
-    console.log(prevProps.votes, this.props.votes)
   }
 
   render() {

@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf ../fatfriday/build && mv build ../fatfriday/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
