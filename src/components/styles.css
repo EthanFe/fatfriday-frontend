@@ -177,6 +177,11 @@ html {
   height: 70%;
 }
 
+.voted-user {
+  color: #FFF921;
+  font-weight: bold;
+}
+
 .invite-user-field {
   padding-bottom: 15px;
 }

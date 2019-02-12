@@ -13,26 +13,32 @@ export default class EventDisplay extends Component {
     fontSize: '90%',
     position: 'fixed',
     overflow: 'auto',
-    maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
+    maxHeight: '50%',
     "z-index": "1"
   }
   
   render() {
     const invitableUsersById = index(this.props.invitableUsers, "id")
 
-    const inviteAcceptedUsers = this.props.invites.filter(invite => invite.accepted).map(invite => invitableUsersById[invite.user_id])
+    let inviteAcceptedUsers = this.props.invites.filter(invite => invite.accepted)
+    // also display event owner as a member of event
+    inviteAcceptedUsers.push({user_id: this.props.data.created_by})
+    inviteAcceptedUsers = inviteAcceptedUsers.map(invite => invitableUsersById[invite.user_id])
+
     const invitePendingUsers = this.props.invites.filter(invite => !invite.accepted).map(invite => invitableUsersById[invite.user_id])
     const viewingAsMember = this.viewingAsMember(inviteAcceptedUsers)
     const sortedPlaces = this.props.placeSuggestions.sort((place1, place2) => place2.votes.length - place1.votes.length)
 
     const usersExcludingSelf = this.props.invitableUsers.filter(user => !this.props.loggedInAs || user.id !== this.props.loggedInAs.id)
+
+    const usersWhoVotedForMousedOver = (this.props.mousedOverSuggestion && this.props.mousedOverSuggestion.votes.map(vote => vote.user_id)) || []
     return (
       <div className="event-display">
         <div className="event-display-main">
           <div className="event-display-members">
             <div className="invited-users-list">
               <div>Users going:</div>
-              {inviteAcceptedUsers.map(user => <div key={user.id}>{user.name}</div> )}
+              {inviteAcceptedUsers.map(user => <div key={user.id} className={usersWhoVotedForMousedOver.includes(user.id) ? "voted-user" : ""}>{user.name}</div> )}
             </div>
           </div>
           <div className="event-display-title">
@@ -101,7 +107,10 @@ export default class EventDisplay extends Component {
               const entryClassName = "event-display-place-list-entry" + (votedFor ? " voted-for" : "")
               const id = `${place.google_place_id}${this.props.data.id}`
               return (
-                <div className="event-display-place-list-entry-container" key={id}>
+                <div className="event-display-place-list-entry-container"
+                     key={id}
+                     onMouseOver={() => this.props.placeMousedOver({event_id: this.props.data.id, google_place_id: place.google_place_id})}
+                     onMouseOut={() => this.props.placeMousedOver(null)}>
                   <VoteCount votes={place.votes.length} id={id}/>
                   {viewingAsMember ? (
                     <div className={`${entryClassName} clickable`}
@@ -127,9 +136,9 @@ export default class EventDisplay extends Component {
   }
 
   viewingAsMember = (inviteAcceptedUsers) => {
-    return this.props.loggedInAs && (this.props.eventOwned || inviteAcceptedUsers.find(invite => {
-      return invite.id === this.props.loggedInAs.id
-    }) !== undefined)
+    return this.props.loggedInAs && (inviteAcceptedUsers.includes(invite => 
+      invite.id === this.props.loggedInAs.id
+    ))
   }
 
   votedFor = (place) => {

@@ -17,7 +17,8 @@ export default class SocketController extends Component {
     invites: [],
     placeSearchText: "",
     placeSearchAutocompletes: [],
-    placeSuggestions: []
+    placeSuggestions: [],
+    mousedOverSuggestionID: null
   }
 
   componentDidMount = () => {
@@ -192,6 +193,10 @@ export default class SocketController extends Component {
     })
   }
 
+  placeMousedOver = (suggestionIDs) => {
+    this.setState({mousedOverSuggestionIDs: suggestionIDs})
+  }
+
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
@@ -225,6 +230,8 @@ export default class SocketController extends Component {
                       suggestPlace={this.suggestPlace}
                       placeSuggestions={this.state.placeSuggestions}
                       placeClickedOn={this.placeClickedOn}
+                      placeMousedOver={this.placeMousedOver}
+                      mousedOverSuggestionIDs={this.state.mousedOverSuggestionIDs}
                       />
   }
 }
