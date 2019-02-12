@@ -81,6 +81,7 @@ export default class SocketController extends Component {
       user_id: userID,
       event_id: eventID
     })
+    this.setState({invitingUserText: ""})
   }
 
   setInitialData = ({events, users, invites, placeSuggestions}) => {
@@ -178,6 +179,7 @@ export default class SocketController extends Component {
       place_name: placeName,
       event_id: eventID
     })
+    this.setState({placeSearchText: ""})
   }
 
   placeClickedOn = (place_id, event_id, alreadyVoted) => {
