@@ -136,9 +136,9 @@ export default class EventDisplay extends Component {
   }
 
   viewingAsMember = (inviteAcceptedUsers) => {
-    return this.props.loggedInAs && (inviteAcceptedUsers.includes(invite => 
+    return this.props.loggedInAs && (inviteAcceptedUsers.find(invite => 
       invite.id === this.props.loggedInAs.id
-    ))
+    ) !== undefined)
   }
 
   votedFor = (place) => {
