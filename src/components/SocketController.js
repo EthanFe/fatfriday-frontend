@@ -28,6 +28,7 @@ export default class SocketController extends Component {
   setupSocket = () => {
     const url = "http://localhost:3000"
     const socket = require('socket.io-client')(url);
+    // const socket = require('socket.io-client')();
     this.socket = socket
     socket.on("initialData", this.setInitialData)
     socket.on("eventList", this.updateEventList)
@@ -79,7 +80,8 @@ export default class SocketController extends Component {
   inviteUser = (userID, eventID) => {
     this.socket.emit("inviteUserToEvent", {
       token: this.state.loggedInAs.token,
-      user_id: userID,
+      user_id: this.state.loggedInAs.id,
+      invitee_user_id: userID,
       event_id: eventID
     })
     this.setState({invitingUserText: ""})
@@ -155,6 +157,7 @@ export default class SocketController extends Component {
       this.autoCompleteBuildupTimer = setTimeout(() => {
         this.socket.emit("placeTextEntered", {
           token: this.state.loggedInAs.token,
+          user_id: this.state.loggedInAs.id,
           text: text
         })
         this.autoCompleteBuildupTimer = null
