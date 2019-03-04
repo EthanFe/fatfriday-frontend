@@ -26,7 +26,7 @@ export default class EventsList extends Component {
                                                   placeSuggestions={placeSuggestionsByEvent[event.id] || []}
                                                   placeClickedOn={this.props.placeClickedOn}
                                                   placeMousedOver={this.props.placeMousedOver}
-                                                  mousedOverSuggestion={this.props.mousedOverSuggestionIDs && placeSuggestionsByEvent[event.id].find(suggestion =>
+                                                  mousedOverSuggestion={this.props.mousedOverSuggestionIDs && (placeSuggestionsByEvent[event.id] || []).find(suggestion =>
                                                     suggestion.event_id === this.props.mousedOverSuggestionIDs.event_id &&
                                                     suggestion.google_place_id === this.props.mousedOverSuggestionIDs.google_place_id
                                                     )}
