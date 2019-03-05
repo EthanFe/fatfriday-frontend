@@ -6,6 +6,7 @@ export default class EventsList extends Component {
   render() {
     const invitesByEvent = group(this.props.invites, "event_id")
     const placeSuggestionsByEvent = group(this.props.placeSuggestions, "event_id")
+    const messagesByEvent = group(this.props.messages, "event_id")
     const sortedEvents = this.props.events.sort((event1, event2) => new Date(event1.event_date).getTime() - new Date(event2.event_date).getTime())
     return (
       <div className="events-list">
@@ -31,6 +32,10 @@ export default class EventsList extends Component {
                                                     suggestion.google_place_id === this.props.mousedOverSuggestionIDs.google_place_id
                                                     )}
                                                   removeEvent={this.props.removeEvent}
+                                                  messages={messagesByEvent[event.id] || []}
+                                                  currentlyTypingMessage={this.props.currentlyTypingMessage}
+                                                  currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
+                                                  sendMessage={this.props.sendMessage}
                                                   />)}
       </div>
     )

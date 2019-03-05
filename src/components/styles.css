@@ -43,7 +43,7 @@ html {
 .event-display {
   padding: 5px;
   min-height: 160px;
-  width: 350px;
+  width: 500px;
 
   border-width: 0px 1px 1px 0px;
   border-style: solid;
@@ -52,10 +52,14 @@ html {
   margin-bottom: 10px;
 
   display: flex;
-  flex-flow: column;
+  flex-flow: row;
 
   transition-duration: 250ms;
   transition-property: background-color, border-color;
+}
+
+.event-display-left-column {
+  flex-flow: column;
 }
 
 .event-display-main {
@@ -75,6 +79,77 @@ html {
 .event-display-members {
   font-size: 10px;
   flex: 1;
+}
+
+.event-display-messages {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  flex: 2;
+  padding-left: 5px;
+  margin-left: 5px;
+  border-left: 1px solid #00000010;
+  border-radius: 5%;
+  height: 100%;
+}
+
+.event-display-messages-header {
+  font-size: 16px;
+  color: #00000080;
+}
+
+.event-display-messages-list {
+  /* max-height: 200px;
+  overflow: scroll; */
+}
+
+.event-display-messages-message-container {
+  font-size: 12px;
+  text-align: left;
+  border-bottom: 1px solid #00000010;
+  border-radius: 20%;
+}
+
+.event-display-messages-message-timestamp {
+  font-size: 8px;
+  text-align: right;
+  color: #000000b0;
+}
+
+.basic-timestamp {
+  display: block;
+}
+
+.full-timestamp {
+  display: none;
+}
+
+.event-display-messages-message-container:hover .event-display-messages-message-timestamp {
+  font-size: 12px;
+  color: #000000;
+}
+
+.event-display-messages-message-container:hover .basic-timestamp {
+  display: none;
+}
+
+.event-display-messages-message-container:hover .full-timestamp {
+  display: block;
+}
+
+.event-display-messages-message {
+  display: flex;
+  flex-flow: row;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.event-display-messages-message-username {
+  color: #741F00;
+  padding-right: 2px;
+  margin-top: 1px;
+}
+
+.event-display-messages-message-text {
+  margin-top: 1px;
 }
 
 .event-name {

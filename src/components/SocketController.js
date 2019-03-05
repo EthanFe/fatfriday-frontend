@@ -18,7 +18,9 @@ export default class SocketController extends Component {
     placeSearchText: "",
     placeSearchAutocompletes: [],
     placeSuggestions: [],
-    mousedOverSuggestionID: null
+    mousedOverSuggestionID: null,
+    messages: [],
+    currentlyTypingMessage: ""
   }
 
   componentDidMount = () => {
@@ -37,6 +39,7 @@ export default class SocketController extends Component {
     socket.on("invitesList", this.updateInvitesList)
     socket.on("placeNameMatches", this.setPlaceSearchAutocompletes)
     socket.on("placeSuggestions", this.updatePlaceSuggestions)
+    socket.on("messages", this.updateMessages)
   }
 
   createNewEvent = () => {
@@ -58,7 +61,6 @@ export default class SocketController extends Component {
   }
 
   updateEventList = (events) => {
-    console.log("updating event list")
     this.setState({events: events})
   }
 
@@ -77,6 +79,10 @@ export default class SocketController extends Component {
   updatePlaceSuggestions = (placeSuggestions) => {
     this.setState({placeSuggestions: placeSuggestions})
   }
+
+  updateMessages = (messages) => {
+    this.setState({messages: messages})
+  }
   
   inviteUser = (userID, eventID) => {
     this.socket.emit("inviteUserToEvent", {
@@ -88,12 +94,13 @@ export default class SocketController extends Component {
     this.setState({invitingUserText: ""})
   }
 
-  setInitialData = ({events, users, invites, placeSuggestions}) => {
+  setInitialData = ({events, users, invites, placeSuggestions, messages}) => {
     this.setState({
       events: events,
       invitableUsers: users,
       invites: invites,
-      placeSuggestions: placeSuggestions
+      placeSuggestions: placeSuggestions,
+      messages: messages
     })
   }
 
@@ -209,6 +216,21 @@ export default class SocketController extends Component {
     })
   }
 
+  currentlyTypingMessageChanged = (event) => {
+    this.setState({currentlyTypingMessage: event.target.value})
+  }
+
+  sendMessage = (event, event_id) => {
+    event.preventDefault()
+    this.socket.emit("sendMessage", {
+      token: this.state.loggedInAs.token,
+      user_id: this.state.loggedInAs.id,
+      event_id: event_id,
+      message: this.state.currentlyTypingMessage
+    })
+    this.setState({currentlyTypingMessage: ""})
+  }
+
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
@@ -245,6 +267,10 @@ export default class SocketController extends Component {
                       placeMousedOver={this.placeMousedOver}
                       mousedOverSuggestionIDs={this.state.mousedOverSuggestionIDs}
                       removeEvent={this.removeEvent}
+                      messages={this.state.messages}
+                      currentlyTypingMessage={this.state.currentlyTypingMessage}
+                      currentlyTypingMessageChanged={this.currentlyTypingMessageChanged}
+                      sendMessage={this.sendMessage}
                       />
   }
 }
