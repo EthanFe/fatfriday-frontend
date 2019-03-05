@@ -58,6 +58,7 @@ export default class SocketController extends Component {
   }
 
   updateEventList = (events) => {
+    console.log("updating event list")
     this.setState({events: events})
   }
 
@@ -200,6 +201,14 @@ export default class SocketController extends Component {
     this.setState({mousedOverSuggestionIDs: suggestionIDs})
   }
 
+  removeEvent = (event_id) => {
+    this.socket.emit("removeEvent", {
+      token: this.state.loggedInAs.token,
+      user_id: this.state.loggedInAs.id,
+      event_id: event_id
+    })
+  }
+
   render() {
     return <MainView events={this.state.events}
                       newEventName={this.state.newEventName}
@@ -235,6 +244,7 @@ export default class SocketController extends Component {
                       placeClickedOn={this.placeClickedOn}
                       placeMousedOver={this.placeMousedOver}
                       mousedOverSuggestionIDs={this.state.mousedOverSuggestionIDs}
+                      removeEvent={this.removeEvent}
                       />
   }
 }

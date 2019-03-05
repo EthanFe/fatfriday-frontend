@@ -30,6 +30,7 @@ export default class EventsList extends Component {
                                                     suggestion.event_id === this.props.mousedOverSuggestionIDs.event_id &&
                                                     suggestion.google_place_id === this.props.mousedOverSuggestionIDs.google_place_id
                                                     )}
+                                                  removeEvent={this.props.removeEvent}
                                                   />)}
       </div>
     )

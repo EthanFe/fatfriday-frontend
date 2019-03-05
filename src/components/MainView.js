@@ -50,7 +50,8 @@ export default class MainView extends Component {
                           placeSuggestions={this.props.placeSuggestions}
                           placeClickedOn={this.props.placeClickedOn}
                           placeMousedOver={this.props.placeMousedOver}
-                          mousedOverSuggestionIDs={this.props.mousedOverSuggestionIDs}/>
+                          mousedOverSuggestionIDs={this.props.mousedOverSuggestionIDs}
+                          removeEvent={this.props.removeEvent}/>
             </div>
           </div>
         </div>

@@ -42,7 +42,10 @@ export default class EventDisplay extends Component {
             </div>
           </div>
           <div className="event-display-title">
-            <span className="event-name">{this.props.data.name}</span>
+            <span className="event-name">
+              {this.props.data.name}
+              {this.viewingAsCreator() ? <span className="delete-event-button" onClick={() => this.props.removeEvent(this.props.data.id)}> (Delete)</span> : null}
+            </span>
             <span className="event-date">{new Date(this.props.data.event_date).toLocaleString()}</span>
             {this.props.eventOwned ? (
               <div className="invite-user-field">
@@ -143,5 +146,9 @@ export default class EventDisplay extends Component {
 
   votedFor = (place) => {
     return this.props.loggedInAs && place.votes.find(place => place.user_id === this.props.loggedInAs.id) !== undefined
+  }
+
+  viewingAsCreator = () => {
+    return this.props.loggedInAs && this.props.loggedInAs.id === this.props.data.created_by
   }
 }
