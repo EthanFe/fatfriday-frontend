@@ -313,3 +313,36 @@ html {
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome and Opera */
 }
+
+.user-display {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-display-name {
+  margin-right: 3px;
+}
+
+.online-indicator {
+
+  align-self: center;
+  border: 1px solid #D6FADC;
+  background-color: #21FF21;
+  padding: 2px 3px;
+  margin: 2px;
+  border-radius: 100%;
+  box-shadow: 0px 0px 3px 1px #D6FADC80;
+  width: 1px;
+  height: 3px;
+  
+  /* prevent text selection */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+}

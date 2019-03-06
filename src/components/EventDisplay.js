@@ -4,6 +4,7 @@ import {index} from "../utility.js"
 import VoteCount from './VoteCount.js';
 import FlipMove from 'react-flip-move';
 import Chatroom from './Chatroom.js';
+import UserDisplay from './UserDisplay.js';
 
 export default class EventDisplay extends Component {
   dropDownStyle = {
@@ -40,7 +41,7 @@ export default class EventDisplay extends Component {
             <div className="event-display-members">
               <div className="invited-users-list">
                 <div>Users going:</div>
-                {inviteAcceptedUsers.map(user => <div key={user.id} className={usersWhoVotedForMousedOver.includes(user.id) ? "voted-user" : ""}>{user.name}</div> )}
+                {inviteAcceptedUsers.map(user => <UserDisplay key={user.id} votedOnMousedOver={usersWhoVotedForMousedOver.includes(user.id)} name={user.name} online={this.props.onlineUsers.includes(user.id)}/> )}
               </div>
             </div>
             <div className="event-display-title">

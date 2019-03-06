@@ -36,6 +36,7 @@ export default class EventsList extends Component {
                                                   currentlyTypingMessage={this.props.currentlyTypingMessage}
                                                   currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
                                                   sendMessage={this.props.sendMessage}
+                                                  onlineUsers={this.props.onlineUsers}
                                                   />)}
       </div>
     )

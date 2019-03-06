@@ -20,7 +20,8 @@ export default class SocketController extends Component {
     placeSuggestions: [],
     mousedOverSuggestionID: null,
     messages: [],
-    currentlyTypingMessage: ""
+    currentlyTypingMessage: "",
+    onlineUsers: []
   }
 
   componentDidMount = () => {
@@ -40,6 +41,7 @@ export default class SocketController extends Component {
     socket.on("placeNameMatches", this.setPlaceSearchAutocompletes)
     socket.on("placeSuggestions", this.updatePlaceSuggestions)
     socket.on("messages", this.updateMessages)
+    socket.on("onlineUsers", this.updateOnlineUsers)
   }
 
   createNewEvent = () => {
@@ -84,6 +86,10 @@ export default class SocketController extends Component {
     this.setState({messages: messages})
   }
   
+  updateOnlineUsers = (onlineUsers) => {
+    this.setState({onlineUsers: onlineUsers})
+  }
+  
   inviteUser = (userID, eventID) => {
     this.socket.emit("inviteUserToEvent", {
       token: this.state.loggedInAs.token,
@@ -94,13 +100,14 @@ export default class SocketController extends Component {
     this.setState({invitingUserText: ""})
   }
 
-  setInitialData = ({events, users, invites, placeSuggestions, messages}) => {
+  setInitialData = ({events, users, invites, placeSuggestions, messages, onlineUserIDs}) => {
     this.setState({
       events: events,
       invitableUsers: users,
       invites: invites,
       placeSuggestions: placeSuggestions,
-      messages: messages
+      messages: messages,
+      onlineUsers: onlineUserIDs
     })
   }
 
@@ -143,6 +150,10 @@ export default class SocketController extends Component {
   }
 
   logoutButtonPressed = () => {
+    this.socket.emit("logout", {
+      token: this.state.loggedInAs.token,
+      user_id: this.state.loggedInAs.id
+    })
     this.setState({loggedInAs: null})
   }
 
@@ -271,6 +282,7 @@ export default class SocketController extends Component {
                       currentlyTypingMessage={this.state.currentlyTypingMessage}
                       currentlyTypingMessageChanged={this.currentlyTypingMessageChanged}
                       sendMessage={this.sendMessage}
+                      onlineUsers={this.state.onlineUsers}
                       />
   }
 }

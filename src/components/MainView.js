@@ -55,7 +55,8 @@ export default class MainView extends Component {
                           messages={this.props.messages}
                           currentlyTypingMessage={this.props.currentlyTypingMessage}
                           currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
-                          sendMessage={this.props.sendMessage}/>
+                          sendMessage={this.props.sendMessage}
+                          onlineUsers={this.props.onlineUsers}/>
             </div>
           </div>
         </div>
