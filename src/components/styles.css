@@ -12,18 +12,21 @@ html {
 }
 
 .main-view {
-
+  width: 90vw;
+  height: 90vh;
 }
 
 .login-and-events-wrapper {
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
+  height: 100%;
+  width: 100%;
 }
 
 .login-wrapper {
   width: 200px;
   padding: 25px;
-  padding-right: 400px
+  margin: auto;
 }
 
 .login-area {
@@ -33,6 +36,7 @@ html {
 .events-list-wrapper {
   display: flex;
   flex-flow: column;
+  margin: auto;
 }
 
 .events-list {
@@ -254,11 +258,6 @@ html {
   height: 70%;
 }
 
-.voted-user {
-  color: #FFF921;
-  font-weight: bold;
-}
-
 .invite-user-field {
   padding-bottom: 15px;
 }
@@ -323,6 +322,11 @@ html {
 
 .user-display-name {
   margin-right: 3px;
+}
+
+.user-display-name.voted-user {
+  color: #FFF921;
+  font-weight: bold;
 }
 
 .online-indicator {
