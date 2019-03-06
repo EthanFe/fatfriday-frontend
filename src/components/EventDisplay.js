@@ -136,7 +136,7 @@ export default class EventDisplay extends Component {
         </div>
         <div className="event-display-right-column">
           <Chatroom
-            event_id={this.props.data.id}
+            eventID={this.props.data.id}
             messages={this.props.messages}
             currentlyTypingMessage={this.props.currentlyTypingMessage}
             currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
