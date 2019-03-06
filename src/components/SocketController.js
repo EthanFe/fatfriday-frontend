@@ -29,9 +29,8 @@ export default class SocketController extends Component {
   }
 
   setupSocket = () => {
-    // const url = "http://localhost:3000"
-    // const socket = require('socket.io-client')(url);
-    const socket = require('socket.io-client')();
+    const socket = require('socket.io-client')("http://localhost:3000");
+    // const socket = require('socket.io-client')();
     this.socket = socket
     socket.on("initialData", this.setInitialData)
     socket.on("eventList", this.updateEventList)

@@ -4,7 +4,7 @@ import DateTimePicker from 'react-datetime-picker';
 export default class NewEventInput extends Component {
   render() {
     return (
-      <div>
+      <div className="new-event-input">
         <div>
           <input type="text" placeholder="Event Name" value={this.props.newEventName} onChange={this.props.newEventNameChanged}/>
           <DateTimePicker onChange={this.props.newEventDateChanged} value={this.props.newEventDate}/>

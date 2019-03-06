@@ -10,31 +10,33 @@ export default class MainView extends Component {
       <div className="wrapper">
         <div className="main-view">
           <div className="login-and-events-wrapper">
-            <div className="login-wrapper">
-              <LoginArea 
-                loginUsername={this.props.loginUsername}
-                loginPassword={this.props.loginPassword}
-                loginUsernameChanged={this.props.loginUsernameChanged}
-                loginPasswordChanged={this.props.loginPasswordChanged}
-                loginButtonPressed={this.props.loginButtonPressed}
+            <h2>Events!</h2>
+            <div className="top-bar">
+              <div className="login-wrapper">
+                <LoginArea 
+                  loginUsername={this.props.loginUsername}
+                  loginPassword={this.props.loginPassword}
+                  loginUsernameChanged={this.props.loginUsernameChanged}
+                  loginPasswordChanged={this.props.loginPasswordChanged}
+                  loginButtonPressed={this.props.loginButtonPressed}
 
-                newUsername={this.props.newUsername}
-                newPassword={this.props.newPassword}
-                newUsernameChanged={this.props.newUsernameChanged}
-                newPasswordChanged={this.props.newPasswordChanged}
-                createNewUser={this.props.createNewUser}
-                
-                loggedInAs={this.props.loggedInAs ? this.props.loggedInAs.name : null}
-                logoutButtonPressed={this.props.logoutButtonPressed}
-              />
-            </div>
-            <div className="events-list-wrapper">
-              <h2>Events!</h2>
+                  newUsername={this.props.newUsername}
+                  newPassword={this.props.newPassword}
+                  newUsernameChanged={this.props.newUsernameChanged}
+                  newPasswordChanged={this.props.newPasswordChanged}
+                  createNewUser={this.props.createNewUser}
+                  
+                  loggedInAs={this.props.loggedInAs ? this.props.loggedInAs.name : null}
+                  logoutButtonPressed={this.props.logoutButtonPressed}
+                />
+              </div>
               {this.props.loggedInAs !== null ? <NewEventInput newEventName={this.props.newEventName}
                             newEventDate={this.props.newEventDate}
                             newEventNameChanged={this.props.newEventNameChanged}
                             createNewEvent={this.props.createNewEvent}
                             newEventDateChanged={this.props.newEventDateChanged}/> : null}
+            </div>
+            <div className="events-list-wrapper">
               <EventsList events={this.props.events}
                           invitableUsers={this.props.invitableUsers}
                           invitingUserText={this.props.invitingUserText}

@@ -18,12 +18,18 @@ html {
 
 .login-and-events-wrapper {
   display: flex;
-  flex-flow: row wrap;
-  height: 100%;
+  flex-flow: column;
+  min-height: 100%;
   width: 100%;
 }
 
+.top-bar {
+  display: flex;
+  flex-flow: row;
+}
+
 .login-wrapper {
+  flex: 1;
   width: 200px;
   padding: 25px;
   margin: auto;
@@ -31,12 +37,18 @@ html {
 
 .login-area {
   width: 200px;
+  margin: auto;
+}
+
+.new-event-input {
+  flex: 1;
 }
 
 .events-list-wrapper {
   display: flex;
   flex-flow: column;
   margin: auto;
+  width: 100%;
 }
 
 .events-list {
@@ -47,13 +59,16 @@ html {
 .event-display {
   padding: 5px;
   min-height: 160px;
-  width: 500px;
+  min-width: 500px;
+  width: 100%;
 
   border-width: 0px 1px 1px 0px;
   border-style: solid;
   border-color: #130d3636;
   border-radius: 10px;
   margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
 
   display: flex;
   flex-flow: row;
@@ -64,6 +79,11 @@ html {
 
 .event-display-left-column {
   flex-flow: column;
+  flex: 1;
+}
+
+.event-display-right-column {
+  flex: 1.5;
 }
 
 .event-display-main {
