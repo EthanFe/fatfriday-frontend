@@ -11,6 +11,7 @@ export default class EventsList extends Component {
     return (
       <div className="events-list">
         {sortedEvents.map(event => <EventDisplay data={event}
+                                                  active={this.props.activeEvent === event.id}
                                                   key={event.id}
                                                   invitableUsers={this.props.invitableUsers}
                                                   invitingUserText={this.props.invitingUserText}
@@ -37,6 +38,7 @@ export default class EventsList extends Component {
                                                   currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
                                                   sendMessage={this.props.sendMessage}
                                                   onlineUsers={this.props.onlineUsers}
+                                                  eventClickedOn={this.props.eventClickedOn}
                                                   />)}
       </div>
     )

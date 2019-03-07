@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "animejs": "^3.0.1",
+    "google-map-react": "^1.1.2",
     "react": "^16.7.0",
     "react-autocomplete": "^1.8.1",
     "react-datetime-picker": "^2.1.1",

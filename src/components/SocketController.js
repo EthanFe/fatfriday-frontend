@@ -21,7 +21,8 @@ export default class SocketController extends Component {
     mousedOverSuggestionID: null,
     messages: [],
     currentlyTypingMessage: "",
-    onlineUsers: []
+    onlineUsers: [],
+    activeEvent: null
   }
 
   componentDidMount = () => {
@@ -62,7 +63,10 @@ export default class SocketController extends Component {
   }
 
   updateEventList = (events) => {
-    this.setState({events: events})
+    this.setState({
+      events: events,
+      activeEvent: this.state.activeEvent === null && events.length > 0 ? this.earliestEvent(events).id : this.state.activeEvent
+    })
   }
 
   updateInvitableUsersList = (users) => {
@@ -106,7 +110,8 @@ export default class SocketController extends Component {
       invites: invites,
       placeSuggestions: placeSuggestions,
       messages: messages,
-      onlineUsers: onlineUserIDs
+      onlineUsers: onlineUserIDs,
+      activeEvent: events.length > 0 ? this.earliestEvent(events).id : null
     })
   }
 
@@ -241,47 +246,58 @@ export default class SocketController extends Component {
     this.setState({currentlyTypingMessage: ""})
   }
 
+  eventClickedOn = (event_id) => {
+    this.setState({activeEvent: event_id})
+  }
+
+  earliestEvent = (events) => {
+    return events.sort((event1, event2) => new Date(event1.event_date).getTime() - new Date(event2.event_date).getTime())[0]
+  }
+
   render() {
-    return <MainView events={this.state.events}
-                      newEventName={this.state.newEventName}
-                      newEventDate={this.state.newEventDate}
-                      createNewEvent={this.createNewEvent}
-                      newEventNameChanged={this.newEventNameChanged}
-                      newEventDateChanged={this.newEventDateChanged}
+    return <MainView
+              newEventName={this.state.newEventName}
+              newEventDate={this.state.newEventDate}
+              createNewEvent={this.createNewEvent}
+              newEventNameChanged={this.newEventNameChanged}
+              newEventDateChanged={this.newEventDateChanged}
 
-                      loginUsername={this.state.loginUsername}
-                      loginPassword={this.state.loginPassword}
-                      loginUsernameChanged={this.loginUsernameChanged}
-                      loginPasswordChanged={this.loginPasswordChanged}
-                      loginButtonPressed={this.loginButtonPressed}
-                      newUsername={this.state.newUsername}
-                      newPassword={this.state.newPassword}
-                      newUsernameChanged={this.newUsernameChanged}
-                      newPasswordChanged={this.newPasswordChanged}
-                      createNewUser={this.createNewUser}
-                      loggedInAs={this.state.loggedInAs}
-                      logoutButtonPressed={this.logoutButtonPressed}
+              loginUsername={this.state.loginUsername}
+              loginPassword={this.state.loginPassword}
+              loginUsernameChanged={this.loginUsernameChanged}
+              loginPasswordChanged={this.loginPasswordChanged}
+              loginButtonPressed={this.loginButtonPressed}
+              newUsername={this.state.newUsername}
+              newPassword={this.state.newPassword}
+              newUsernameChanged={this.newUsernameChanged}
+              newPasswordChanged={this.newPasswordChanged}
+              createNewUser={this.createNewUser}
+              loggedInAs={this.state.loggedInAs}
+              logoutButtonPressed={this.logoutButtonPressed}
 
-                      invitableUsers={this.state.invitableUsers}
-                      invitingUserText={this.state.invitingUserText}
-                      invitingUserTextChanged={this.invitingUserTextChanged}
-                      inviteUser={this.inviteUser}
-                      invites={this.state.invites}
-                      acceptInvitation={this.acceptInvitation}
-                      placeSearchText={this.state.placeSearchText}
-                      placeSearchTextChanged={this.placeSearchTextChanged}
-                      placeSearchAutocompletes={this.state.placeSearchAutocompletes}
-                      suggestPlace={this.suggestPlace}
-                      placeSuggestions={this.state.placeSuggestions}
-                      placeClickedOn={this.placeClickedOn}
-                      placeMousedOver={this.placeMousedOver}
-                      mousedOverSuggestionIDs={this.state.mousedOverSuggestionIDs}
-                      removeEvent={this.removeEvent}
-                      messages={this.state.messages}
-                      currentlyTypingMessage={this.state.currentlyTypingMessage}
-                      currentlyTypingMessageChanged={this.currentlyTypingMessageChanged}
-                      sendMessage={this.sendMessage}
-                      onlineUsers={this.state.onlineUsers}
-                      />
+              events={this.state.events}
+              activeEvent={this.state.activeEvent}
+              invitableUsers={this.state.invitableUsers}
+              invitingUserText={this.state.invitingUserText}
+              invitingUserTextChanged={this.invitingUserTextChanged}
+              inviteUser={this.inviteUser}
+              invites={this.state.invites}
+              acceptInvitation={this.acceptInvitation}
+              placeSearchText={this.state.placeSearchText}
+              placeSearchTextChanged={this.placeSearchTextChanged}
+              placeSearchAutocompletes={this.state.placeSearchAutocompletes}
+              suggestPlace={this.suggestPlace}
+              placeSuggestions={this.state.placeSuggestions}
+              placeClickedOn={this.placeClickedOn}
+              placeMousedOver={this.placeMousedOver}
+              mousedOverSuggestionIDs={this.state.mousedOverSuggestionIDs}
+              removeEvent={this.removeEvent}
+              messages={this.state.messages}
+              currentlyTypingMessage={this.state.currentlyTypingMessage}
+              currentlyTypingMessageChanged={this.currentlyTypingMessageChanged}
+              sendMessage={this.sendMessage}
+              onlineUsers={this.state.onlineUsers}
+              eventClickedOn={this.eventClickedOn}
+            />
   }
 }

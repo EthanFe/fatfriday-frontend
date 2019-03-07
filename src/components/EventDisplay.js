@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete'
 import {index} from "../utility.js"
-import VoteCount from './VoteCount.js';
-import FlipMove from 'react-flip-move';
 import Chatroom from './Chatroom.js';
 import UserDisplay from './UserDisplay.js';
+import PlacesList from './PlacesList.js';
 
 export default class EventDisplay extends Component {
   dropDownStyle = {
@@ -29,13 +28,12 @@ export default class EventDisplay extends Component {
 
     const invitePendingUsers = this.props.invites.filter(invite => !invite.accepted).map(invite => invitableUsersById[invite.user_id])
     const viewingAsMember = this.viewingAsMember(inviteAcceptedUsers)
-    const sortedPlaces = this.props.placeSuggestions.sort((place1, place2) => place2.votes.length - place1.votes.length)
 
     const usersExcludingSelf = this.props.invitableUsers.filter(user => !this.props.loggedInAs || user.id !== this.props.loggedInAs.id)
 
     const usersWhoVotedForMousedOver = (this.props.mousedOverSuggestion && this.props.mousedOverSuggestion.votes.map(vote => vote.user_id)) || []
     return (
-      <div className="event-display">
+      <div className={"event-display" + (this.props.active ? " active-event" : " inactive-event")} onClick={() => this.props.eventClickedOn(this.props.data.id)}>
         <div className="event-display-left-column">
           <div className="event-display-main">
             <div className="event-display-members">
@@ -50,7 +48,7 @@ export default class EventDisplay extends Component {
                 {this.viewingAsCreator() ? <span className="delete-event-button" onClick={() => this.props.removeEvent(this.props.data.id)}> (Delete)</span> : null}
               </span>
               <span className="event-date">{new Date(this.props.data.event_date).toLocaleString()}</span>
-              {this.props.eventOwned ? (
+              {this.props.eventOwned && this.props.active ? (
                 <div className="invite-user-field">
                   <div className="invite-user-label">Invite to Event</div>
                   <Autocomplete
@@ -87,52 +85,35 @@ export default class EventDisplay extends Component {
               ) : null}
             </div>
           </div>
-          {viewingAsMember ? (
-            <div className="event-display-place-suggestion">
-              <div className="invite-user-label">Suggest a Place</div>
-              <Autocomplete
-                getItemValue={(item) => item.placeName}
-                items={this.props.placeSearchAutocompletes}
-                renderItem={(item, isHighlighted) =>
-                  <div style={{background: isHighlighted ? 'lightgray' : 'white'}}>
-                    {item.placeName}
-                  </div>
-                }
-                value={this.props.placeSearchText}
-                onChange={(event) => this.props.placeSearchTextChanged(event.target.value)}
-                onSelect={(value, item) => this.props.suggestPlace(item.placeID, item.placeName, this.props.data.id)}
-                shouldItemRender={(place, input) => this.doesNameContainInput(place.placeName, input)}
-                menuStyle={this.dropDownStyle}
-              />
+          {this.props.active ? (
+            <div>
+              {viewingAsMember ? (
+                <div className="event-display-place-suggestion">
+                  <div className="invite-user-label">Suggest a Place</div>
+                  <Autocomplete
+                    getItemValue={(item) => item.placeName}
+                    items={this.props.placeSearchAutocompletes}
+                    renderItem={(item, isHighlighted) =>
+                      <div style={{background: isHighlighted ? 'lightgray' : 'white'}}>
+                        {item.placeName}
+                      </div>
+                    }
+                    value={this.props.placeSearchText}
+                    onChange={(event) => this.props.placeSearchTextChanged(event.target.value)}
+                    onSelect={(value, item) => this.props.suggestPlace(item.placeID, item.placeName, this.props.data.id)}
+                    shouldItemRender={(place, input) => this.doesNameContainInput(place.placeName, input)}
+                    menuStyle={this.dropDownStyle}
+                  />
+                </div>
+              ) : null}
+              <PlacesList placeSuggestions={this.props.placeSuggestions}
+                          loggedInAs={this.props.loggedInAs}
+                          eventID={this.props.data.id}
+                          placeMousedOver={this.props.placeMousedOver}
+                          placeClickedOn={this.props.placeClickedOn}
+                          viewingAsMember={viewingAsMember}/>
             </div>
           ) : null}
-          <div className="event-display-place-list">
-            <FlipMove>
-              {sortedPlaces.map(place => {
-                const votedFor = this.votedFor(place)
-                const entryClassName = "event-display-place-list-entry" + (votedFor ? " voted-for" : "")
-                const id = `${place.google_place_id}${this.props.data.id}`
-                return (
-                  <div className="event-display-place-list-entry-container"
-                      key={id}
-                      onMouseOver={() => this.props.placeMousedOver({event_id: this.props.data.id, google_place_id: place.google_place_id})}
-                      onMouseOut={() => this.props.placeMousedOver(null)}>
-                    <VoteCount votes={place.votes.length} id={id}/>
-                    {viewingAsMember ? (
-                      <div className={`${entryClassName} clickable`}
-                          onClick={() => this.props.placeClickedOn(place.google_place_id, this.props.data.id, votedFor)}>
-                        {place.name} 
-                      </div>
-                    ) : (
-                      <div className={`${entryClassName}`}>
-                        {place.name} 
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </FlipMove>
-          </div>
         </div>
         <div className="event-display-right-column">
           <Chatroom
@@ -157,10 +138,6 @@ export default class EventDisplay extends Component {
     return this.props.loggedInAs && (inviteAcceptedUsers.find(invite => 
       invite.id === this.props.loggedInAs.id
     ) !== undefined)
-  }
-
-  votedFor = (place) => {
-    return this.props.loggedInAs && place.votes.find(place => place.user_id === this.props.loggedInAs.id) !== undefined
   }
 
   viewingAsCreator = () => {

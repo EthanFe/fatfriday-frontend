@@ -44,6 +44,10 @@ html {
   flex: 1;
 }
 
+.map-wrapper {
+  margin: 25px auto;
+}
+
 .events-list-wrapper {
   display: flex;
   flex-flow: column;
@@ -58,7 +62,6 @@ html {
 
 .event-display {
   padding: 5px;
-  min-height: 160px;
   min-width: 500px;
   width: 100%;
 
@@ -73,8 +76,21 @@ html {
   display: flex;
   flex-flow: row;
 
-  transition-duration: 250ms;
-  transition-property: background-color, border-color;
+  transition-duration: 350ms;
+  transition-property: background-color, box-shadow, min-height;
+}
+
+.event-display.active-event {
+  background-color: #D6FADC20;
+  min-height: 160px;
+  /* border-color: #130d3636; */
+  /* border-width: 0.5px 1px 1px 0.5px; */
+  box-shadow: 0px 0px 3px 5px #D6FADC60;
+}
+
+.event-display.inactive-event {
+  background-color: #130d3610;
+  /* background-color: green; */
 }
 
 .event-display-left-column {
@@ -121,8 +137,15 @@ html {
 }
 
 .event-display-messages-list {
-  max-height: 200px;
   overflow: scroll;
+}
+
+.event-display.active-event .event-display-messages-list {
+  max-height: 200px;
+}
+
+.event-display.inactive-event .event-display-messages-list {
+  max-height: 80px;
 }
 
 .event-display-messages-message-container {
@@ -198,6 +221,7 @@ html {
 .event-display-place-list {
   padding: 5px;
   font-size: 10px;
+  margin-top: 10px;
 }
 
 .event-display-place-list-entry-container {
@@ -350,7 +374,6 @@ html {
 }
 
 .online-indicator {
-
   align-self: center;
   border: 1px solid #D6FADC;
   background-color: #21FF21;
@@ -369,4 +392,22 @@ html {
       -ms-user-select: none; /* Internet Explorer/Edge */
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome and Opera */
+}
+
+.place-map-marker {
+  border: 2px solid black;
+  border-radius: 100%;
+  background-color: yellow;
+  width: 5px;
+  height: 5px;
+}
+
+.place-map-marker.map-marker-hovered {
+  width: 60px;
+  height: 20px;
+  height: auto;
+  border-radius: 10%;
+  border-color: #130d3636;
+  background-color: #000000b0;
+  color: white;
 }

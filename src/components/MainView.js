@@ -36,8 +36,9 @@ export default class MainView extends Component {
                             createNewEvent={this.props.createNewEvent}
                             newEventDateChanged={this.props.newEventDateChanged}/> : null}
             </div>
-            <div className="events-list-wrapper">
+            <div className="events-list-wrapper" data-tip="whee">
               <EventsList events={this.props.events}
+                          activeEvent={this.props.activeEvent}
                           invitableUsers={this.props.invitableUsers}
                           invitingUserText={this.props.invitingUserText}
                           invitingUserTextChanged={this.props.invitingUserTextChanged}
@@ -58,7 +59,8 @@ export default class MainView extends Component {
                           currentlyTypingMessage={this.props.currentlyTypingMessage}
                           currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
                           sendMessage={this.props.sendMessage}
-                          onlineUsers={this.props.onlineUsers}/>
+                          onlineUsers={this.props.onlineUsers}
+                          eventClickedOn={this.props.eventClickedOn}/>
             </div>
           </div>
         </div>
