@@ -161,6 +161,49 @@ html {
   color: #000000b0;
 }
 
+.event-display-messages-message-upper {
+  display: flex;
+  flex-flow: row;
+}
+
+.event-display-messages-message-edit-button {
+  border-width: 0px 1px 1px 0px;
+  border-style: solid;
+  border-color: #130d3636;
+  border-radius: 5px;
+  padding: 1px;
+  margin-left: 2px;
+  
+  /* prevent text selection */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+  
+  cursor: pointer;
+}
+
+.event-display-messages-message-edit-button:hover {
+  background-color: #D6FADC20;
+  box-shadow: 0px 0px 3px 1px #D6FADC60;
+}
+
+.event-display-messages-message-edit-button:active {
+  background-color: #D6FADC80;
+  box-shadow: 0px 0px 3px 2px #D6FADC60;
+}
+
+.event-display-messages-message-edit-button.editing {
+  display: none;
+}
+
+.event-display-messages-message-timestamps {
+  width: 100%;
+}
+
 .basic-timestamp {
   display: block;
 }
@@ -179,6 +222,16 @@ html {
 }
 
 .event-display-messages-message-container:hover .full-timestamp {
+  display: block;
+}
+
+.event-display-messages-message-edit-button {
+  font-size: 12px;
+  color: #000000;
+  display: none;
+}
+
+.event-display-messages-message-container:hover .event-display-messages-message-edit-button {
   display: block;
 }
 

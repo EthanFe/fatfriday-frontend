@@ -121,9 +121,15 @@ export default class EventDisplay extends Component {
             messages={this.props.messages}
             currentlyTypingMessage={this.props.currentlyTypingMessage}
             currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
-            sendMessage={this.props.sendMessage}
             users={index(inviteAcceptedUsers, "id")}
             viewingAsMember={viewingAsMember}
+            currentlyEditingMessage={this.props.currentlyEditingMessage}
+            currentlyEditingMessageContent={this.props.currentlyEditingMessageContent}
+            currentlyEditingMessageChanged={this.props.currentlyEditingMessageChanged}
+            currentlyEditingMessageContentChanged={this.props.currentlyEditingMessageContentChanged}
+            sendMessage={this.props.sendMessage}
+            editMessage={this.props.editMessage}
+            loggedInAs={this.props.loggedInAs}
           />
         </div>
       </div>

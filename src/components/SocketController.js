@@ -21,6 +21,8 @@ export default class SocketController extends Component {
     mousedOverSuggestionID: null,
     messages: [],
     currentlyTypingMessage: "",
+    currentlyEditingMessage: null,
+    currentlyEditingMessageContent: "",
     onlineUsers: [],
     activeEvent: null
   }
@@ -246,6 +248,28 @@ export default class SocketController extends Component {
     this.setState({currentlyTypingMessage: ""})
   }
 
+  editMessage = (event, message_id) => {
+    event.preventDefault()
+    this.socket.emit("editMessage", {
+      token: this.state.loggedInAs.token,
+      user_id: this.state.loggedInAs.id,
+      message_id: message_id,
+      new_message: this.state.currentlyEditingMessageContent
+    })
+    this.setState({currentlyEditingMessage: null, currentlyEditingMessageContent: ""})
+  }
+
+  currentlyEditingMessageChanged = (message_id) => {
+    this.setState({
+      currentlyEditingMessage: message_id,
+      currentlyEditingMessageContent: this.state.messages.find(message => message.id === message_id).message_body
+    })
+  }
+
+  currentlyEditingMessageContentChanged = (event) => {
+    this.setState({currentlyEditingMessageContent: event.target.value})
+  }
+
   eventClickedOn = (event_id) => {
     this.setState({activeEvent: event_id})
   }
@@ -295,7 +319,12 @@ export default class SocketController extends Component {
               messages={this.state.messages}
               currentlyTypingMessage={this.state.currentlyTypingMessage}
               currentlyTypingMessageChanged={this.currentlyTypingMessageChanged}
+              currentlyEditingMessage={this.state.currentlyEditingMessage}
+              currentlyEditingMessageContent={this.state.currentlyEditingMessageContent}
+              currentlyEditingMessageChanged={this.currentlyEditingMessageChanged}
+              currentlyEditingMessageContentChanged={this.currentlyEditingMessageContentChanged}
               sendMessage={this.sendMessage}
+              editMessage={this.editMessage}
               onlineUsers={this.state.onlineUsers}
               eventClickedOn={this.eventClickedOn}
             />

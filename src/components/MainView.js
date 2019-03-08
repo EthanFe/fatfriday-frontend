@@ -55,12 +55,17 @@ export default class MainView extends Component {
                           placeMousedOver={this.props.placeMousedOver}
                           mousedOverSuggestionIDs={this.props.mousedOverSuggestionIDs}
                           removeEvent={this.props.removeEvent}
+                          onlineUsers={this.props.onlineUsers}
+                          eventClickedOn={this.props.eventClickedOn}
                           messages={this.props.messages}
                           currentlyTypingMessage={this.props.currentlyTypingMessage}
                           currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
+                          currentlyEditingMessage={this.props.currentlyEditingMessage}
+                          currentlyEditingMessageContent={this.props.currentlyEditingMessageContent}
+                          currentlyEditingMessageChanged={this.props.currentlyEditingMessageChanged}
+                          currentlyEditingMessageContentChanged={this.props.currentlyEditingMessageContentChanged}
                           sendMessage={this.props.sendMessage}
-                          onlineUsers={this.props.onlineUsers}
-                          eventClickedOn={this.props.eventClickedOn}/>
+                          editMessage={this.props.editMessage}/>
             </div>
           </div>
         </div>

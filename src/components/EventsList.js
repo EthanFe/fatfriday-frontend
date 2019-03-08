@@ -36,9 +36,14 @@ export default class EventsList extends Component {
                                                   messages={messagesByEvent[event.id] || []}
                                                   currentlyTypingMessage={this.props.currentlyTypingMessage}
                                                   currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
-                                                  sendMessage={this.props.sendMessage}
                                                   onlineUsers={this.props.onlineUsers}
                                                   eventClickedOn={this.props.eventClickedOn}
+                                                  currentlyEditingMessage={this.props.currentlyEditingMessage}
+                                                  currentlyEditingMessageContent={this.props.currentlyEditingMessageContent}
+                                                  currentlyEditingMessageChanged={this.props.currentlyEditingMessageChanged}
+                                                  currentlyEditingMessageContentChanged={this.props.currentlyEditingMessageContentChanged}
+                                                  sendMessage={this.props.sendMessage}
+                                                  editMessage={this.props.editMessage}
                                                   />)}
       </div>
     )
