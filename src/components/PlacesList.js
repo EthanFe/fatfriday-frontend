@@ -38,9 +38,9 @@ export default class PlacesList extends Component {
             })}
           </FlipMove>
         </div>
-        {/* <div className="map-wrapper" style={{ height: '300px', width: '300px' }}>
+        <div className="map-wrapper" style={{ height: '300px', width: '300px' }}>
           <GoogleMapReact
-            bootstrapURLKeys={{ key: "AIzaSyD4LP2vYtk2WtAbH_mZXcnJ4GUGeDliwt4" }}
+            bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
             defaultCenter={{
               lat: latitude,
               lng: longitude
@@ -49,7 +49,7 @@ export default class PlacesList extends Component {
           >
             {this.props.placeSuggestions.map(place => <PlaceMarker lat={place.placeData.location.latitude} lng={place.placeData.location.longitude} place={place}/>)}
           </GoogleMapReact>
-        </div> */}
+        </div>
       </div>
     )
   }
