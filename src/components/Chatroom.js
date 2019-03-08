@@ -37,7 +37,7 @@ export default class Chatroom extends Component {
                 {this.props.currentlyEditingMessage === message.id ? (
                   <div>
                     <input type="text" placeholder="Message" value={this.props.currentlyEditingMessageContent} onChange={this.props.currentlyEditingMessageContentChanged}/>
-                    <span><button onClick={event => this.props.editMessage(event, this.props.eventID)}>Edit</button></span>
+                    <span><button onClick={event => this.props.editMessage(event, message.id)}>Edit</button></span>
                   </div>
                 ) : (
                   <div className="event-display-messages-message">
