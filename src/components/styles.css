@@ -166,7 +166,7 @@ html {
   flex-flow: row;
 }
 
-.event-display-messages-message-edit-button {
+.event-display-messages-message-edit-button, .event-display-messages-message-delete-button {
   border-width: 0px 1px 1px 0px;
   border-style: solid;
   border-color: #130d3636;
@@ -186,18 +186,14 @@ html {
   cursor: pointer;
 }
 
-.event-display-messages-message-edit-button:hover {
+.event-display-messages-message-edit-button:hover, .event-display-messages-message-delete-button:hover {
   background-color: #D6FADC20;
   box-shadow: 0px 0px 3px 1px #D6FADC60;
 }
 
-.event-display-messages-message-edit-button:active {
+.event-display-messages-message-edit-button:active, .event-display-messages-message-delete-button:active {
   background-color: #D6FADC80;
   box-shadow: 0px 0px 3px 2px #D6FADC60;
-}
-
-.event-display-messages-message-edit-button.editing {
-  display: none;
 }
 
 .event-display-messages-message-timestamps {
@@ -225,14 +221,18 @@ html {
   display: block;
 }
 
-.event-display-messages-message-edit-button {
-  font-size: 12px;
-  color: #000000;
+.event-display-messages-message-editdelete-buttons {
   display: none;
 }
 
-.event-display-messages-message-container:hover .event-display-messages-message-edit-button {
-  display: block;
+.event-display-messages-message-container:hover .event-display-messages-message-editdelete-buttons {
+  display: flex;
+  flex-flow: row;
+}
+
+.event-display-messages-message-edit-button {
+  font-size: 12px;
+  color: #000000;
 }
 
 .event-display-messages-message {

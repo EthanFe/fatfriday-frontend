@@ -270,6 +270,14 @@ export default class SocketController extends Component {
     this.setState({currentlyEditingMessageContent: event.target.value})
   }
 
+  deleteMessage = (message_id) => {
+    this.socket.emit("deleteMessage", {
+      token: this.state.loggedInAs.token,
+      user_id: this.state.loggedInAs.id,
+      message_id: message_id
+    })
+  }
+
   eventClickedOn = (event_id) => {
     this.setState({activeEvent: event_id})
   }
@@ -325,6 +333,7 @@ export default class SocketController extends Component {
               currentlyEditingMessageContentChanged={this.currentlyEditingMessageContentChanged}
               sendMessage={this.sendMessage}
               editMessage={this.editMessage}
+              deleteMessage={this.deleteMessage}
               onlineUsers={this.state.onlineUsers}
               eventClickedOn={this.eventClickedOn}
             />

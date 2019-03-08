@@ -65,7 +65,8 @@ export default class MainView extends Component {
                           currentlyEditingMessageChanged={this.props.currentlyEditingMessageChanged}
                           currentlyEditingMessageContentChanged={this.props.currentlyEditingMessageContentChanged}
                           sendMessage={this.props.sendMessage}
-                          editMessage={this.props.editMessage}/>
+                          editMessage={this.props.editMessage}
+                          deleteMessage={this.props.deleteMessage}/>
             </div>
           </div>
         </div>

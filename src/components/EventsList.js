@@ -44,6 +44,7 @@ export default class EventsList extends Component {
                                                   currentlyEditingMessageContentChanged={this.props.currentlyEditingMessageContentChanged}
                                                   sendMessage={this.props.sendMessage}
                                                   editMessage={this.props.editMessage}
+                                                  deleteMessage={this.props.deleteMessage}
                                                   />)}
       </div>
     )

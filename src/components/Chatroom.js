@@ -20,12 +20,14 @@ export default class Chatroom extends Component {
         <div className={"event-display-messages-list event-id-" + this.props.eventID} ref="messageList">
           {sortedMessages.map(message => {
             const editing = this.props.currentlyEditingMessage === message.id
-            console.log(editing)
             return (
               <div className="event-display-messages-message-container" key={message.id}>
                 <div className="event-display-messages-message-upper">
                   {this.viewingAsMessageAuthor(message) && !editing ? (
-                  <div className="event-display-messages-message-edit-button" onClick={() => this.props.currentlyEditingMessageChanged(message.id)}>Edit</div>
+                    <div className="event-display-messages-message-editdelete-buttons">
+                      <div className="event-display-messages-message-edit-button" onClick={() => this.props.currentlyEditingMessageChanged(message.id)}>Edit</div>
+                      <div className="event-display-messages-message-delete-button" onClick={() => this.props.deleteMessage(message.id)}>Delete</div>
+                    </div>
                   ) : null}
                   <div className="event-display-messages-message-timestamps">
                     <div className="event-display-messages-message-timestamp basic-timestamp">{new Date(message.created_on).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
