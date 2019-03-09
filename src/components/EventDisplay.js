@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import Autocomplete from 'react-autocomplete'
 import {index} from "../utility.js"
 import Chatroom from './Chatroom.js';
-import UserDisplay from './UserDisplay.js';
 import PlacesList from './PlacesList.js';
+import InviteUserInput from './InviteUserInput.js';
+import EventMembersList from './EventMembersList.js';
+import {connect} from 'react-redux'
+import { acceptInvitation, clickOnEvent, deleteEvent } from '../actions.js';
+import SuggestPlaceInput from './SuggestPlaceInput.js';
 
-export default class EventDisplay extends Component {
+class EventDisplay extends Component {
   dropDownStyle = {
     borderRadius: '3px',
     boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
@@ -28,48 +31,20 @@ export default class EventDisplay extends Component {
 
     const invitePendingUsers = this.props.invites.filter(invite => !invite.accepted).map(invite => invitableUsersById[invite.user_id])
     const viewingAsMember = this.viewingAsMember(inviteAcceptedUsers)
-
-    const usersExcludingSelf = this.props.invitableUsers.filter(user => !this.props.loggedInAs || user.id !== this.props.loggedInAs.id)
-
-    const usersWhoVotedForMousedOver = (this.props.mousedOverSuggestion && this.props.mousedOverSuggestion.votes.map(vote => vote.user_id)) || []
     return (
-      <div className={"event-display" + (this.props.active ? " active-event" : " inactive-event")} onClick={() => this.props.eventClickedOn(this.props.data.id)}>
+      <div className={"event-display" + (this.props.active ? " active-event" : " inactive-event")} onClick={() => this.props.clickOnEvent(this.props.data.id)}>
         <div className="event-display-left-column">
           <div className="event-display-main">
             <div className="event-display-members">
-              <div className="invited-users-list">
-                <div>Users going:</div>
-                {inviteAcceptedUsers.map(user => <UserDisplay key={user.id} votedOnMousedOver={usersWhoVotedForMousedOver.includes(user.id)} name={user.name} online={this.props.onlineUsers.includes(user.id)}/> )}
-              </div>
+              <EventMembersList users={inviteAcceptedUsers} placeSuggestions={this.props.placeSuggestions}/>
             </div>
             <div className="event-display-title">
               <span className="event-name">
                 {this.props.data.name}
-                {this.viewingAsCreator() ? <span className="delete-event-button" onClick={() => this.props.removeEvent(this.props.data.id)}> (Delete)</span> : null}
+                {this.viewingAsCreator() ? <span className="delete-event-button" onClick={() => this.props.deleteEvent(this.props.loggedInAs.token, this.props.loggedInAs.id, this.props.data.id)}> (Delete)</span> : null}
               </span>
               <span className="event-date">{new Date(this.props.data.event_date).toLocaleString()}</span>
-              {this.props.eventOwned && this.props.active ? (
-                <div className="invite-user-field">
-                  <div className="invite-user-label">Invite to Event</div>
-                  <Autocomplete
-                    getItemValue={(item) => item.name}
-                    items={usersExcludingSelf}
-                    renderItem={(item, isHighlighted) =>
-                      <div style={{
-                        background: isHighlighted ? 'lightgray' : 'white',
-                        color: this.props.invites.find(invite => invite.user_id === item.id) !== undefined ? '#67960f80' : 'black'
-                      }}>
-                        {item.name}
-                      </div>
-                    }
-                    value={this.props.invitingUserText}
-                    onChange={(event) => this.props.invitingUserTextChanged(event.target.value)}
-                    onSelect={(value, item) => this.props.inviteUser(item.id, this.props.data.id)}
-                    shouldItemRender={(user, input) => this.doesNameContainInput(user.name, input)}
-                    menuStyle={this.dropDownStyle}
-                  />
-                </div>
-              ) : null}
+              {this.props.eventOwned && this.props.active ? <InviteUserInput invites={this.props.invites} eventID={this.props.data.id}/> : null}
             </div>
             <div className="event-display-members">
               <div className="invited-users-list">
@@ -80,38 +55,18 @@ export default class EventDisplay extends Component {
                 return invite.id === this.props.loggedInAs.id
                 }) !== undefined ? (
                 <div className="join-event">
-                  <button className="join-event-button" onClick={() => this.props.acceptInvitation(this.props.data.id)}>Join Event</button>
+                  <button className="join-event-button" onClick={() => this.props.acceptInvitation(this.props.loggedInAs.token, this.props.loggedInAs.id, this.props.data.id)}>Join Event</button>
                 </div>
               ) : null}
             </div>
           </div>
           {this.props.active ? (
             <div>
-              {viewingAsMember ? (
-                <div className="event-display-place-suggestion">
-                  <div className="invite-user-label">Suggest a Place</div>
-                  <Autocomplete
-                    getItemValue={(item) => item.placeName}
-                    items={this.props.placeSearchAutocompletes}
-                    renderItem={(item, isHighlighted) =>
-                      <div style={{background: isHighlighted ? 'lightgray' : 'white'}}>
-                        {item.placeName}
-                      </div>
-                    }
-                    value={this.props.placeSearchText}
-                    onChange={(event) => this.props.placeSearchTextChanged(event.target.value)}
-                    onSelect={(value, item) => this.props.suggestPlace(item.placeID, item.placeName, this.props.data.id)}
-                    shouldItemRender={(place, input) => this.doesNameContainInput(place.placeName, input)}
-                    menuStyle={this.dropDownStyle}
-                  />
-                </div>
-              ) : null}
+              {viewingAsMember ? <SuggestPlaceInput eventID={this.props.data.id}/> : null}
               <PlacesList placeSuggestions={this.props.placeSuggestions}
-                          loggedInAs={this.props.loggedInAs}
                           eventID={this.props.data.id}
-                          placeMousedOver={this.props.placeMousedOver}
-                          placeClickedOn={this.props.placeClickedOn}
-                          viewingAsMember={viewingAsMember}/>
+                          viewingAsMember={viewingAsMember}
+                          />
             </div>
           ) : null}
         </div>
@@ -119,26 +74,13 @@ export default class EventDisplay extends Component {
           <Chatroom
             eventID={this.props.data.id}
             messages={this.props.messages}
-            currentlyTypingMessage={this.props.currentlyTypingMessage}
-            currentlyTypingMessageChanged={this.props.currentlyTypingMessageChanged}
             users={index(inviteAcceptedUsers, "id")}
             viewingAsMember={viewingAsMember}
-            currentlyEditingMessage={this.props.currentlyEditingMessage}
-            currentlyEditingMessageContent={this.props.currentlyEditingMessageContent}
-            currentlyEditingMessageChanged={this.props.currentlyEditingMessageChanged}
-            currentlyEditingMessageContentChanged={this.props.currentlyEditingMessageContentChanged}
-            sendMessage={this.props.sendMessage}
-            editMessage={this.props.editMessage}
-            deleteMessage={this.props.deleteMessage}
-            loggedInAs={this.props.loggedInAs}
+            active={this.props.active}
           />
         </div>
       </div>
     )
-  }
-
-  doesNameContainInput = (name, input) => {
-    return name.toLowerCase().indexOf(input.toLowerCase()) !== -1
   }
 
   viewingAsMember = (inviteAcceptedUsers) => {
@@ -151,3 +93,20 @@ export default class EventDisplay extends Component {
     return this.props.loggedInAs && this.props.loggedInAs.id === this.props.data.created_by
   }
 }
+
+const mapStateToProps = (state, props) => {
+  return {
+    invitableUsers: state.users,
+    loggedInAs: state.loggedInAs,
+    eventOwned: state.loggedInAs && state.loggedInAs.id === props.data.created_by,
+    active: state.activeEvent === props.data.id
+  }
+}
+
+const mapActionsToProps = {
+  acceptInvitation: acceptInvitation,
+  clickOnEvent: clickOnEvent,
+  deleteEvent: deleteEvent
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(EventDisplay);

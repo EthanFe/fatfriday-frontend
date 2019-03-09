@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import SocketController from './components/SocketController';
+import MainView from './components/MainView';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <SocketController/>
+        <MainView/>
       </div>
     );
   }

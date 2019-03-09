@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import anime from 'animejs'
 import Message from './Message';
+import {connect} from 'react-redux'
+import { changeCurrentlyTypingMessage, sendMessage } from '../actions';
 
-export default class Chatroom extends Component {
+class Chatroom extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.messages.length !== this.props.messages.length) {
       this.scrollToBottom();
@@ -20,31 +22,24 @@ export default class Chatroom extends Component {
         <div className="event-display-messages-header">Chat</div>
         <div className={"event-display-messages-list event-id-" + this.props.eventID} ref="messageList">
           {sortedMessages.map(message => {
-            const editing = this.props.currentlyEditingMessage === message.id
-            return <Message
-              message={message}
-              editing={editing}
-              currentlyEditingMessage={this.props.currentlyEditingMessage}
-              currentlyEditingMessageContent={this.props.currentlyEditingMessageContent}
-              currentlyEditingMessageChanged={this.props.currentlyEditingMessageChanged}
-              currentlyEditingMessageContentChanged={this.props.currentlyEditingMessageContentChanged}
-              editMessage={this.props.editMessage}
-              deleteMessage={this.props.deleteMessage}
-              username={this.props.users[message.user_id].name}
-              viewingAsMessageAuthor={this.viewingAsMessageAuthor(message)}
-            />
+            return <Message message={message} username={this.props.users[message.user_id].name} key={message.id}/>
           })}
         </div>
-        {this.props.viewingAsMember ? (
+        {this.props.active && this.props.viewingAsMember ? (
           <div className="event-display-messages-text-entry">
             <form>
-              <input type="text" placeholder="Message" value={this.props.currentlyTypingMessage} onChange={this.props.currentlyTypingMessageChanged}/>
-              <div><button onClick={event => this.props.sendMessage(event, this.props.eventID)}>Send</button></div>
+              <input type="text" placeholder="Message" value={this.props.currentlyTypingMessage} onChange={(event) => this.props.changeCurrentlyTypingMessage(event.target.value)}/>
+              <div><button onClick={this.sendMessage}>Send</button></div>
             </form>
           </div>
         ) : null}
       </div>
     )
+  }
+
+  sendMessage = (event) => {
+    event.preventDefault()
+    this.props.sendMessage(this.props.loggedInAs.token, this.props.loggedInAs.id, this.props.eventID, this.props.currentlyTypingMessage)
   }
 
   scrollToBottom = () => {
@@ -61,8 +56,18 @@ export default class Chatroom extends Component {
       scrollTop: maxScrollTop > 0 ? maxScrollTop : 0
     }).restart()
   }
+}
 
-  viewingAsMessageAuthor = (message) => {
-    return this.props.loggedInAs && this.props.loggedInAs.id === message.user_id
+const mapStateToProps = (state, props) => {
+  return {
+    loggedInAs: state.loggedInAs,
+    currentlyTypingMessage: state.currentlyTypingMessage
   }
 }
+
+const mapActionsToProps = {
+  changeCurrentlyTypingMessage: changeCurrentlyTypingMessage,
+  sendMessage: sendMessage
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Chatroom);

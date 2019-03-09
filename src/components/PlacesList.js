@@ -3,8 +3,10 @@ import VoteCount from './VoteCount.js';
 import FlipMove from 'react-flip-move';
 import GoogleMapReact from 'google-map-react';
 import PlaceMarker from './PlaceMarker';
+import {connect} from 'react-redux'
+import { mouseOverPlace, clickOnPlace } from '../actions.js';
 
-export default class PlacesList extends Component {
+class PlacesList extends Component {
   render() {
     const latitude = 29.747055
     const longitude = -95.372617
@@ -20,12 +22,12 @@ export default class PlacesList extends Component {
               return (
                 <div className="event-display-place-list-entry-container"
                     key={id}
-                    onMouseOver={() => this.props.placeMousedOver({event_id: this.props.eventID, google_place_id: place.google_place_id})}
-                    onMouseOut={() => this.props.placeMousedOver(null)}>
+                    onMouseOver={() => this.props.mouseOverPlace({event_id: this.props.eventID, google_place_id: place.google_place_id})}
+                    onMouseOut={() => this.props.mouseOverPlace(null)}>
                   <VoteCount votes={place.votes.length} id={id}/>
                   {this.props.viewingAsMember ? (
                     <div className={`${entryClassName} clickable`}
-                        onClick={() => this.props.placeClickedOn(place.google_place_id, this.props.eventID, votedFor)}>
+                        onClick={() => this.props.clickOnPlace(this.props.loggedInAs.token, this.props.loggedInAs.id, place.google_place_id, this.props.eventID, votedFor)}>
                       {place.placeData.name} 
                     </div>
                   ) : (
@@ -47,7 +49,7 @@ export default class PlacesList extends Component {
             }}
             defaultZoom={11}
           >
-            {this.props.placeSuggestions.map(place => <PlaceMarker lat={place.placeData.location.latitude} lng={place.placeData.location.longitude} place={place}/>)}
+            {this.props.placeSuggestions.map(place => <PlaceMarker lat={place.placeData.location.latitude} lng={place.placeData.location.longitude} place={place} key={place.google_place_id}/>)}
           </GoogleMapReact>
         </div>
       </div>
@@ -58,3 +60,16 @@ export default class PlacesList extends Component {
     return this.props.loggedInAs && place.votes.find(place => place.user_id === this.props.loggedInAs.id) !== undefined
   }
 }
+
+const mapStateToProps = (state, props) => {
+  return {
+    loggedInAs: state.loggedInAs
+  }
+}
+
+const mapActionsToProps = {
+  mouseOverPlace: mouseOverPlace,
+  clickOnPlace: clickOnPlace
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(PlacesList);
