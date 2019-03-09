@@ -32,7 +32,8 @@ const defaultState = {
   activeEvent: null
 }
 
-export const store = createStore(rootReducer, defaultState, applyMiddleware(createMySocketMiddleware("http://localhost:3000")))
+export const store = createStore(rootReducer, defaultState, applyMiddleware(createMySocketMiddleware()))
+// export const store = createStore(rootReducer, defaultState, applyMiddleware(createMySocketMiddleware("http://localhost:3000")))
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

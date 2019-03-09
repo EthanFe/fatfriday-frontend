@@ -10,7 +10,7 @@ class Message extends PureComponent {
           {this.viewingAsMessageAuthor() && !this.props.editing ? (
             <div className="event-display-messages-message-editdelete-buttons">
               <div className="event-display-messages-message-edit-button" onClick={() => this.props.changeCurrentlyEditingMessage(this.props.message.id, this.props.message.message_body)}>Edit</div>
-              <div className="event-display-messages-message-delete-button" onClick={() => this.props.deleteMessage(this.props.message.id)}>Delete</div>
+              <div className="event-display-messages-message-delete-button" onClick={() => this.deleteMessage(this.props.message.id)}>Delete</div>
             </div>
           ) : null}
           <div className="event-display-messages-message-timestamps">
@@ -38,7 +38,7 @@ class Message extends PureComponent {
   }
 
   deleteMessage = () => {
-    this.props.sendMessage(this.props.loggedInAs.token, this.props.loggedInAs.id, this.props.message.id)
+    this.props.deleteMessage(this.props.loggedInAs.token, this.props.loggedInAs.id, this.props.message.id)
   }
 
   viewingAsMessageAuthor = () => {
