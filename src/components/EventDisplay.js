@@ -32,7 +32,7 @@ class EventDisplay extends Component {
     const invitePendingUsers = this.props.invites.filter(invite => !invite.accepted).map(invite => invitableUsersById[invite.user_id])
     const viewingAsMember = this.viewingAsMember(inviteAcceptedUsers)
     return (
-      <div className={"event-display" + (this.props.active ? " active-event" : " inactive-event")} onClick={() => this.props.clickOnEvent(this.props.data.id)}>
+      <div className={"event-display" + (this.props.active ? " active-event" : " inactive-event")} onClick={() => {if (!this.props.active) {this.props.clickOnEvent(this.props.data.id)}}}>
         <div className="event-display-left-column">
           <div className="event-display-main">
             <div className="event-display-members">

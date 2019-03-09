@@ -167,6 +167,8 @@ export function clickOnPlace(token, user_id, place_id, event_id, alreadyVoted) {
 }
 
 export function clickOnEvent(event_id) {
+  store.dispatch({ type: CLEAR_CURRENTLY_TYPING_MESSAGE })
+  store.dispatch({ type: CLEAR_CURRENTLY_EDITING_MESSAGE })
   return {
     type: CLICK_ON_EVENT,
     payload: {event_id}
