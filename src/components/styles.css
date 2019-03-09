@@ -80,17 +80,21 @@ html {
   transition-property: background-color, box-shadow, min-height;
 }
 
+.event-display.inactive-event:hover {
+  background-color: #D6FADC08;
+  box-shadow: 0px 0px 3px 3px #D6FADC60;
+}
+
 .event-display.active-event {
   background-color: #D6FADC20;
   min-height: 160px;
+  box-shadow: 0px 0px 3px 5px #D6FADC60;
   /* border-color: #130d3636; */
   /* border-width: 0.5px 1px 1px 0.5px; */
-  box-shadow: 0px 0px 3px 5px #D6FADC60;
 }
 
 .event-display.inactive-event {
   background-color: #130d3610;
-  /* background-color: green; */
 }
 
 .event-display-left-column {
