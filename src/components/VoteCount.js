@@ -9,7 +9,8 @@ export default class VoteCount extends Component {
       easing: 'easeOutQuart',
       direction: 'alternate',
       duration: 350,
-      background: "#00B258"
+      background: "#00B258",
+      autoplay: false
     });
     this.negativeAnimation = anime({
       targets: '.vote-count.' + this.props.id,
@@ -17,7 +18,8 @@ export default class VoteCount extends Component {
       easing: 'easeOutQuart',
       direction: 'alternate',
       duration: 350,
-      background: "#B30300"
+      background: "#B30300",
+      autoplay: false
     });
   }
   
